@@ -13,6 +13,6 @@ Mtc is written in PHP and uses (or will use) a number of open source projects to
 * [jQuery] - duh, yet to be implemented
 
 
-[Mathias Bosman]:http://daringfireball.net/
-[@mathiasbosman]:http://twitter.com/thomasfuchs
+[Mathias Bosman]:http://www.mathiasbosman.be/
+[@mathiasbosman]:http://twitter.com/mathiasbosman
 [jQuery]:http://jquery.com
