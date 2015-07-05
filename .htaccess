@@ -1,0 +1,14 @@
+AddDefaultCharset UTF-8
+
+SetEnvIfNoCase User-Agent "^libwww-perl*" block_bad_bots
+Deny from env=block_bad_bots
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteCond %{HTTP_HOST}  \.
+    RewriteCond %{HTTP_HOST} !^www\.
+	RewriteRule (.*) http://www.%{HTTP_HOST}/pX/$1 [R=301,L]
+
+	RewriteRule    ^$    public/    [L]
+	RewriteRule    (.*) public/$1    [L]
+ </IfModule>
