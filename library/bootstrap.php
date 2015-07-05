@@ -12,9 +12,12 @@ require_once ROOT . DS . 'config' . DS . 'config.php';
 require_once ROOT . DS . 'config' . DS . 'inflection.php';
 require_once ROOT . DS . 'library' . DS . 'shared.php';
 
-// Check if the upload folder exists. If not: create
-if (!file_exists(ROOT . DS . UPLOAD_FOLDER)) {
-    mkdir(ROOT . DS . UPLOAD_FOLDER);
+// Check if the Js, CSS and upload foler exist. If not: create
+$folders = [FOLDER_JS, FOLDER_CSS, FOLDER_UPLOADS];
+foreach ($folders as $folder) {
+	if (!file_exists(ROOT . DS . 'public' . DS . $folder)) {
+		mkdir(ROOT . DS . 'public' . DS . $folder);
+	}
 }
 
 // Route the requested url

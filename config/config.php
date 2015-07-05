@@ -16,8 +16,10 @@ define('DEFAULT_TIMEZONE', 'Europe/Brussels');
 // Default charset of your site
 define('CHARSET', 'UTF-8');
 
-// Folder used to upload user uploads, if it does not exist it will be created
-define('UPLOAD_FOLDER', 'uploads');
+// Default Javascript, CSS and upload folder. If they do not exist, they will be created
+define('FOLDER_JS', 'js');
+define('FOLDER_CSS', 'css');
+define('FOLDER_UPLOADS', 'uploads'); /* NOTE: this will be outside the public folder */
 
 // Database settings
 define('DB_NAME', 'mtc');
