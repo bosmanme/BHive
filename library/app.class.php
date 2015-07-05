@@ -22,12 +22,20 @@ class App {
 		}
 	}
 	
+	/**
+	 * Strips slashes from a given variable
+	 * @param  Mixed $value Either an array of other object
+	 * @return Mixed
+	 */
 	private function _stripSlashesDeep($value) {
 		$value = is_array($value) ? array_map(array($this, 'stripSlashesDeep'), $value) : stripcslashes($value);
 		
 		return $value;
 	}
 	
+	/**
+	 * If get_magic_quotes is enabled, remove slashes from global variables
+	 */
 	private function _removeMagicQuotes() {
 		if (get_magic_quotes_gpc()) {
 			$_GET 		= $this->_stripSlashesDeep($_GET);
@@ -36,6 +44,9 @@ class App {
 		}
 	}
 	
+	/**
+	 * Just in case... (register globals was removed in php 5.4)
+	 */
 	private function _unregisterGlobals() {
 		if (ini_get('register_globals')) {
 			$array = array(
