@@ -9,6 +9,8 @@
 // Name of your site
 $sitename = 'Mtc';
 
+// Default language
+$language = 'Nl';
 
 // Default timezone used
 define('DEFAULT_TIMEZONE', 'Europe/Brussels');
@@ -19,7 +21,7 @@ define('CHARSET', 'UTF-8');
 // Default Javascript, CSS and upload folder. If they do not exist, they will be created
 define('FOLDER_JS', 'js');
 define('FOLDER_CSS', 'css');
-define('FOLDER_UPLOADS', 'uploads'); /* NOTE: this will be outside the public folder */
+define('FOLDER_UPLOADS', 'uploads');
 
 // Database settings
 define('DB_NAME', 'mtc');
@@ -36,6 +38,7 @@ define('SITE_NAME', $sitename);
 // Default controller
 define('DEFAULT_CONTROLLER', 'home');
 
-// Set development environment
+// Others
 define('DEVELOPMENT_ENVIRONMENT', true);
+define('DEFAULT_LANGUAGE', $language);
 ?>

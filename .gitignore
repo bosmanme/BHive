@@ -4,6 +4,7 @@
 
 # The default upload folder
 public/uploads/
+_dev
 
 
 # Windows image file caches
