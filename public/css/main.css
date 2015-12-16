@@ -1,0 +1,44 @@
+/* Color scheme
+Found on https://wigetmedia.com/
+https://www.behance.net/gallery/31558229/Wiget-website-design */
+html,
+body,
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: #505267;
+  font-family: 'Open Sans',sans-serif;
+  background: #f0f0f8;
+}
+
+/* Form elements */
+button {
+  border-radius: 3px;
+  transition: background .3s,color .3s,border .3s ease;
+}
+
+button .large {
+  height: 55px;
+  width: 315px;
+  font-size: 15px;
+}
+
+button .blue, button .darkBlue {
+  background: #5584ff;
+  color: #f0f0f8;
+  border: 0 solid #3d6deb;
+}
+
+button .darkBlue {
+  background: #2a1647;
+  color: #000;
+}
+
+button .darkBlue :hover {
+  color: #2a1657;
+  background: #000;
+}

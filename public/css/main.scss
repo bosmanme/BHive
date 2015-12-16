@@ -1,0 +1,52 @@
+/* Color scheme
+Found on https://wigetmedia.com/
+https://www.behance.net/gallery/31558229/Wiget-website-design */
+$clr-font-primary: #333;
+$clr-font-secondary: #5584ff;
+$clr-font-accent: #d2dbf4;
+$clr-font-accent2: #a0a1af;
+$clr-font-accent3: #505267;
+
+@import 'reset.scss';
+@import 'mixins.scss';
+
+body {
+    color: #505267;
+    font-family: 'Open Sans',sans-serif;
+    background: #f0f0f8;
+}
+
+/* Form elements */
+button {
+
+    border-radius: 3px;
+    transition: background .3s,color .3s,border .3s ease;
+
+    // Sizes
+    .large {
+        height: 55px;
+        width: 315px;
+        font-size: 15px;
+    }
+    .medium {}
+    .small {}
+
+
+    // Colors
+    .blue {
+        background: #5584ff;
+        color: #f0f0f8;
+        border: 0 solid #3d6deb;
+    }
+    .darkBlue {
+        @extend .blue;
+        background: #2a1647;
+        color: #000;
+
+        :hover {
+            color: #2a1657;
+            background: #000;
+
+        }
+    }
+}

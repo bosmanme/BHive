@@ -1,9 +1,9 @@
 <?php
 /**
  * Configuration file
- * 
+ *
  * Configuration settings used globabbly
- * 
+ *
  */
 
 // Name of your site
@@ -32,7 +32,11 @@ define('DB_PORT', '');
 define('DB_PREF', '');
 
 // Base path, the absolute path of your project
-define('BASE_PATH', 'http://localhost/' . $sitename);
+if (substr($_SERVER['REMOTE_ADDR'],0,8) == "192.168.") {
+  define('BASE_PATH', $_SERVER['SERVER_NAME']);
+} else {
+  define('BASE_PATH', 'http://' . $_SERVER['SERVER_NAME']);
+}
 define('SITE_NAME', $sitename);
 
 // Default controller

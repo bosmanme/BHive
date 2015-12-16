@@ -6,8 +6,9 @@
 
         <?php
         // Main javascript files
+	      $html->includeCss('main');
         $html->includeJs('jQuery/jquery-2.1.4.min');
         ?>
     </head>
-    
+
     <body>
