@@ -1,14 +1,14 @@
 <?php
 /**
  * Home controller
- * 
+ *
  */
 class HomeController extends Controller
 {
     /**
      * Generates the index page (home page)
      */
-    public function __construct($controller, $action) 
+    public function __construct($controller, $action)
     {
         // There's no Home model, so do not load it by default
     	parent::__construct($controller, $action, false);
@@ -17,9 +17,9 @@ class HomeController extends Controller
     /**
      * The index, main page, welcome page.. etc..
      */
-    public function index() 
+    public function index()
     {
-        $this->_getView()->set('test', 'test');
+        $this->_getView()->set('test', 'GitHub test');
         $this->_getView()->render();
     }
 }
