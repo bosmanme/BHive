@@ -16,7 +16,9 @@ function __autoload($className)
     } elseif (file_exists(ROOT . DS . 'app' . DS . 'models' . DS . strtolower($className) . '.php')) {
         require_once ROOT . DS . 'app' . DS . 'models' . DS . strtolower($className) . '.php';
     } else {
-        /* Check if a descendant model exists */
+        /* Check if a descendant model exists base on camelcasing
+        * For example: UserRole will be in models / user / role.php
+        */
         $regex = '/(?<!^)((?<![[:upper:]])[[:upper:]]|[[:upper:]](?![[:upper:]]))/';
         $path = ROOT . DS . 'app' . DS . 'models' . DS . strtolower(preg_replace($regex, '/$1', $className)) . '.php';
         if (file_exists($path)) {
@@ -26,7 +28,7 @@ function __autoload($className)
         }
     }
 }
-				 
+
 /**
  * Secondary call function
  * @param string $controller
@@ -35,8 +37,8 @@ function __autoload($className)
  * @param boolean $render
  * @return mixed
  */
-function performAction($controller,$action,$queryString = array(),$render = false) 
-{	
+function performAction($controller,$action,$queryString = array(),$render = false)
+{
     $controllerName = ucfirst($controller).'Controller';
     $dispatch = new $controllerName($controller,$action);
     $dispatch->render = $render;
@@ -64,7 +66,7 @@ function d($var, $exit = true)
     print '<pre>';
     var_dump($var);
     print '</pre>';
-    
+
     if ($exit) {
         exit;
     }
