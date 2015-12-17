@@ -33,7 +33,7 @@ define('DB_PREF', '');
 
 // Base path, the absolute path of your project
 if (substr($_SERVER['REMOTE_ADDR'],0,8) == "192.168.") {
-  define('BASE_PATH', $_SERVER['SERVER_NAME']);
+  define('BASE_PATH', 'http://' . $_SERVER['SERVER_NAME'] . '/www/' . $sitename);
 } else {
   define('BASE_PATH', 'http://' . $_SERVER['SERVER_NAME']);
 }
