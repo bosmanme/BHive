@@ -26,7 +26,7 @@ class Date extends DateTime
      * Names of the weekdays
      * @var array
      */
-    public static $days = array(
+    public static $days = [
             self::SUNDAY    => 'Sunday',
             self::MONDAY    => 'Monday',
             self::TUESDAY   => 'Tuesday',
@@ -34,33 +34,33 @@ class Date extends DateTime
             self::THURSDAY  => 'Thursday',
             self::FRIDAY    => 'Friday',
             self::SATURDAY  => 'Saturday',
-        );
+    ];
 
     /**
      * Labels for each format
      * @var array
      */
-    public static $formatLabels = array(
-            self::FORMAT_DEFAULT    => 'mm/dd/yyyy',
-            self::FORMAT_ISO8601    => 'yyyy-mm-dd',
-            self::FORMAT_SHORT      => 'd M, y',
-            self::FORMAT_MEDIUM     => 'd MM, y',
-            self::FORMAT_FULL       => 'DD, d MM, yy',
-            self::FORMAT_DATETIME   => 'yyyy-mm-dd hh:ii:ss'
-        );
+    public static $formatLabels = [
+        self::FORMAT_DEFAULT    => 'mm/dd/yyyy',
+        self::FORMAT_ISO8601    => 'yyyy-mm-dd',
+        self::FORMAT_SHORT      => 'd M, y',
+        self::FORMAT_MEDIUM     => 'd MM, y',
+        self::FORMAT_FULL       => 'DD, d MM, yy',
+        self::FORMAT_DATETIME   => 'yyyy-mm-dd hh:ii:ss'
+    ];
 
     /**
      * All formats
      * @var array
      */
-    public static $formats = array(
-            self::FORMAT_DEFAULT    => 'd/m/Y',
-            self::FORMAT_ISO8601    => 'Y-m-d',
-            self::FORMAT_SHORT      => 'd M, y',
-            self::FORMAT_MEDIUM     => 'd F, Y',
-            self::FORMAT_FULL       => 'l, d F, Y',
-            self::FORMAT_DATETIME   => 'Y-m-d H:i:s',
-        );
+    public static $formats = [
+        self::FORMAT_DEFAULT    => 'd/m/Y',
+        self::FORMAT_ISO8601    => 'Y-m-d',
+        self::FORMAT_SHORT      => 'd M, y',
+        self::FORMAT_MEDIUM     => 'd F, Y',
+        self::FORMAT_FULL       => 'l, d F, Y',
+        self::FORMAT_DATETIME   => 'Y-m-d H:i:s',
+    ];
 
     /**
      * Type of the date, either a plain date or a date with timestamp

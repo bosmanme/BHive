@@ -1,13 +1,13 @@
 <?php
 /**
  * Routing
- * 
+ *
  * Used in conjunction with the config/inflection.php
- * 
+ *
  */
 class Inflection
 {
-    static $plural = array(
+    static $plural = [
         '/(quiz)$/i'               => "$1zes",
         '/^(ox)$/i'                => "$1en",
         '/([m|l])ouse$/i'          => "$1ice",
@@ -27,9 +27,9 @@ class Inflection
         '/(us)$/i'                 => "$1es",
         '/s$/i'                    => "s",
         '/$/'                      => "s"
-    );
+    ];
 
-    static $singular = array(
+    static $singular = [
         '/(quiz)zes$/i'             => "$1",
         '/(matr)ices$/i'            => "$1ix",
         '/(vert|ind)ices$/i'        => "$1ex",
@@ -58,18 +58,18 @@ class Inflection
         '/(corpse)s$/i'             => "$1",
         '/(us)es$/i'                => "$1",
         '/s$/i'                     => ""
-    );
+    ];
 
-    static $irregular = array(
-        'move'   => 'moves',
-        'sex'    => 'sexes',
-        'person' => 'people',
-        'admin' => 'admin'
-    );
+    static $irregular = [
+        'move'      => 'moves',
+        'sex'       => 'sexes',
+        'person'    => 'people',
+        'admin'     => 'admin'
+    ];
 
-    static $uncountable = array(
+    static $uncountable = [
         'information',
-    );
+    ];
 
     /**
      * Pluralize an English string
@@ -77,15 +77,15 @@ class Inflection
      * @param string $string
      * @return string
      */
-    public static function pluralize( $string )
+    public static function pluralize($string)
     {
         global $irregularWords;
-		
+
         // save some time in the case that singular and plural are the same
         if (in_array(strtolower($string), self::$uncountable)) {
             return $string;
         }
-        
+
         // check for irregular singular forms
         foreach ($irregularWords as $pattern => $result) {
             $pattern = '/' . $pattern . '$/i';
@@ -120,15 +120,15 @@ class Inflection
      * @param string $string
      * @return string
      */
-    public static function singularize( $string )
-    {	
+    public static function singularize($string)
+    {
         global $irregularWords;
-        
+
         // save some time in the case that singular and plural are the same
         if (in_array(strtolower($string), self::$uncountable)) {
             return $string;
         }
-        
+
         // check for irregular words
         foreach ($irregularWords as $result => $pattern) {
             $pattern = '/' . $pattern . '$/i';
@@ -137,7 +137,7 @@ class Inflection
                 return preg_replace( $pattern, $result, $string);
             }
         }
-		
+
         // check for irregular plural forms
         foreach (self::$irregular as $result => $pattern) {
             $pattern = '/' . $pattern . '$/i';

@@ -11,6 +11,5 @@ $irregularWords = array(
 	'singular' => 'plural'
 );
 **/
-$irregularWords = array(
-);
+$irregularWords = [];
 ?>

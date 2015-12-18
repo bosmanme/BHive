@@ -1,27 +1,27 @@
 <?php
 /**
  * View class
- * 
+ *
  * Renders views
- * 
+ *
  */
 class View
 {
-    protected $_variables = array();
+    protected $_variables = [];
     protected $_controller;
     protected $_action;
-    
+
     /**
      * Creates a new view
      * @param type $controller
      * @param type $action
      */
-    public function __construct($controller, $action) 
+    public function __construct($controller, $action)
     {
         $this->_controller = strtolower($controller);
         $this->_action = $action;
     }
-    
+
     /**
      * Set variables
      * @param string $name
@@ -34,14 +34,14 @@ class View
 
     /**
      * Returns a variable
-     * @param  string $name 
-     * @return mixed       
+     * @param  string $name
+     * @return mixed
      */
     public function get($name)
     {
         return $this->_variables[$name];
     }
-    
+
     /**
      * Display the template if a controller specific footer or header is not found
      * the global header & footer in the view folder will be used
@@ -52,15 +52,15 @@ class View
     {
         $html = new HTML();
 
-        if (file_exists(ROOT . DS . 'public' . DS . 'js' . DS . $this->_controller . DS . $this->_action . '.js')) {          
+        if (file_exists(ROOT . DS . 'public' . DS . 'js' . DS . $this->_controller . DS . $this->_action . '.js')) {
             $script = $this->_controller . DS . $this->_action;
             $this->set('jsScript', $script);
         }
-     
+
 
         extract($this->_variables);
 
-        if ($doNotRenderHeader == false) {		
+        if ($doNotRenderHeader == false) {
             if (file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . 'header.php')) {
                     include ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . 'header.php';
             } else {
@@ -76,10 +76,10 @@ class View
                 }
             }
         }
-        
+
         if (file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php')) {
 
-            include ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php';		 
+            include ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php';
         }
 
         if ($doNotRenderHeader == false) {

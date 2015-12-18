@@ -1,18 +1,19 @@
 <?php
 /**
  * ORM class
- * 
+ *
  */
-class ORM {
-    
+class ORM
+{
+
     // Where condition array keys
-    const WHERE_FRAGMENT = 0;
-    const WHERE_VALUES = 1;
+    const WHERE_FRAGMENT    = 0;
+    const WHERE_VALUES      = 1;
     /**
      * Array of configuration values
-     * @var array 
+     * @var array
      */
-    protected static $_config = array(
+    protected static $_config = [
         'connection' 		=> 'sqlite::memory:',
         'idColumn' 			=> 'id',
         'idColumnOverrides' => array(),
@@ -23,16 +24,16 @@ class ORM {
         'identifyQuoteChar' => null, // we will auto detect this if not set
         'logging' 			=> false,
         'caching' 			=> true,
-    );
+    ];
     /**
      * Database connection
-     * @var PDO 
+     * @var PDO
      */
     protected static $_db;
     /**
      * The last query run, only saved when logging is enabled
      * @see ORM::$_config
-     * @var string 
+     * @var string
      */
     protected static $_lastQuery;
     /**
@@ -40,13 +41,13 @@ class ORM {
      * @see ORM::$_config
      * @var array
      */
-    protected static $_queryLog = array();
+    protected static $_queryLog = [];
     /**
      * Query cache, only used when caching is enabled
      * @see ORM::$_config
-     * @var array 
+     * @var array
      */
-    protected static $_queryCache = array();
+    protected static $_queryCache = [];
     /**
      * The name of the table for this ORM instance
      * @var string
@@ -61,12 +62,12 @@ class ORM {
      * Values to be bound to a query
      * @var array
      */
-    protected $_values = array();
+    protected $_values = [];
     /**
      * Columns to select in the result
      * @var array
      */
-    protected $_resultColumns = array('*');
+    protected $_resultColumns = ['*'];
     /**
      * Have the default result columns been changed manually?
      * @var boolean
@@ -76,7 +77,7 @@ class ORM {
      * Joined sources
      * @var array
      */
-    protected $_joinSources = array();
+    protected $_joinSources = [];
     /**
      * Create a distinct query?
      * @var boolean
@@ -94,14 +95,14 @@ class ORM {
     protected $_rawQuery = '';
     /**
      * The parameters for the raw query
-     * @var array 
+     * @var array
      */
-    protected $_rawParameters = array();
+    protected $_rawParameters = [];
     /**
      * Array of where clauses
      * @var array
      */
-    protected $_whereConditions = array();
+    protected $_whereConditions = [];
     /**
      * The limit of the query
      * @var integer
@@ -116,27 +117,27 @@ class ORM {
      * Order by clauses
      * @var array
      */
-    protected $_orderBy = array();
+    protected $_orderBy = [];
     /**
      * Group by clauses
      * @var array
      */
-    protected $_groupBy = array();
+    protected $_groupBy = [];
     /**
      * Data in case thys class gets hydrated
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
     /**
      * Fields that have been changed during the process
      * @var array
      */
-    protected $_dirtyFields = array();
+    protected $_dirtyFields = [];
     /**
      * Fields that are inserted
      * @var array
      */
-    protected $_exprFields = array();
+    protected $_exprFields = [];
     /**
      * Is it is a new object (has create() been used)?
      * @var boolean
@@ -144,21 +145,22 @@ class ORM {
     protected $_isNew = false;
     /**
      * Column to use as primary key, overriding the config settings
-     * @var string 
+     * @var string
      */
     protected $_instanceIdColumn = null;
-    
+
     /**
      * If set the cache will be ignored for this query
-     * @var boolean 
+     * @var boolean
      */
     protected $_ignoreCache = false;
     /**
      * Set a config value
      * @param mixed $key Configuration setting to set (defaults to 'connectionString')
-     * @param mixed $value 
+     * @param mixed $value
      */
-    public static function configure($key, $value = null) {
+    public static function configure($key, $value = null)
+    {
         if (is_array($key)) {
             foreach ($key as $confKey => $confValue) {
                 self::configure($confKey, $confValue);
@@ -173,11 +175,12 @@ class ORM {
     }
     /**
      * Alias for the factory method
-     * @param string $tableName 
+     * @param string $tableName
      * @see ORM::factory
      * @return ORM
      */
-    public static function forTable($tableName) {
+    public static function forTable($tableName)
+    {
         return self::factory($tableName);
     }
     /**
@@ -185,7 +188,8 @@ class ORM {
      * @param string $tableName Name of the table
      * @return ORM
      */
-    public static function factory($tableName) {   
+    public static function factory($tableName)
+    {
         self::_setupDb();
         $factored = new self($tableName);
         return $factored;
@@ -193,8 +197,9 @@ class ORM {
     /**
      * Set up the database connection
      */
-    protected static function _setupDb() {
-        
+    protected static function _setupDb()
+    {
+
         if (!is_object(self::$_db)) {
             // Create the PDO connection
             $connectionString = self::$_config['connectionString'];
@@ -208,18 +213,20 @@ class ORM {
     }
     /**
      * Set the PDO object
-     * @param PDO $db 
+     * @param PDO $db
      */
-    public static function setDb($db) {
+    public static function setDb($db)
+    {
         self::$_db = $db;
         self::_setupIdentifierQuoteChar();
     }
     /**
-     * Detect the character used to quote identifiers 
+     * Detect the character used to quote identifiers
      * such as table names, column names..
      * If manually specified this method will do nothing
      */
-    public static function _setupIdentifierQuoteChar() {
+    public static function _setupIdentifierQuoteChar()
+    {
         if (is_null(self::$_config['identifyQuoteChar'])) {
             self::$_config['identifyQuoteChar'] = self::_detectIdentifierQuoteChar();
         }
@@ -227,7 +234,8 @@ class ORM {
     /**
      * Returns the character used to quote identifiers by looking at the driver
      */
-    protected static function _detectIdentifierQuoteChar() {
+    protected static function _detectIdentifierQuoteChar()
+    {
         switch (self::$_db->getAttribute(PDO::ATTR_DRIVER_NAME)) {
             case 'psql':
             case 'sqlsrv':
@@ -246,7 +254,8 @@ class ORM {
      * Returns the PDO object used by the ORM
      * @return PDO
      */
-    public static function getDb() {
+    public static function getDb()
+    {
         self::_setupDb();
         return self::$_db;
     }
@@ -254,16 +263,17 @@ class ORM {
      * Log the query, if so configurated
      * @param string $query
      * @param array $paramaters
-     * @return boolean 
+     * @return boolean
      */
-    protected static function _logQuery($query, $paramaters) {
+    protected static function _logQuery($query, $paramaters)
+    {
         // check if logging is enabled
         if (!self::$_config['logging']) {
             return false;
         }
         if (count($paramaters) > 0) {
             // Escape the parameters
-            $paramaters = array_map(array(self::$_db, 'quote'), $paramaters);
+            $paramaters = array_map([self::$_db, 'quote'], $paramaters);
             // Avoid the use of %format
             $query = str_replace('%', '%%', $query);
             // Switch placeholders
@@ -272,50 +282,53 @@ class ORM {
             } else {
                 $query = str_replace('?', '%s', $query);
             }
-            
+
             $boundQuery = vsprintf($query, $paramaters);
         } else {
             $boundQuery = $query;
         }
-        
+
         self::$_lastQuery = $boundQuery;
         self::$_queryLog[] = $boundQuery;
-        
+
         return true;
     }
-    
+
     /**
      * Get the last query executed. Only works if the
      * 'logging' config option is set to true. Otherwise
      * this will return null.
      * @return string
      */
-    public static function getLastQuery() {
+    public static function getLastQuery()
+    {
         return self::$_lastQuery;
     }
-    
+
     /**
      * Get an array containing all the queries run up to
      * now. Only works if the 'logging' config option is
      * set to true. Otherwise returned array will be empty.
      * @return array
      */
-    public static function getQueryLog() {
+    public static function getQueryLog()
+    {
         return self::$_queryLog;
     }
-    
+
     /**
      * constructor shouldn't be called directly.
      * Use the ORM::forTable factory method instead.
-     * @param string $tableName 
+     * @param string $tableName
      * @param array $data
      * @see ORM::forTable
      */
-    protected function __construct($tableName, $data=array()) {
+    protected function __construct($tableName, $data=[])
+    {
         $this->_tableName = $tableName;
         $this->_data = $data;
     }
-    
+
     /**
      * Create a new, empty instance of the class. Used
      * to add a new row to your database. May optionally
@@ -326,14 +339,15 @@ class ORM {
      * @param array $data
      * @return ORM
      */
-    public function create($data=null) {
+    public function create($data=null)
+    {
         $this->_isNew = true;
         if (!is_null($data)) {
             return $this->hydrate($data)->forceAllDirty();
         }
         return $this;
     }
-    
+
     /**
      * Specify the ID column to use for this instance or array of instances only.
      * This overrides the idColumn and idColumnOverrides settings.
@@ -344,30 +358,33 @@ class ORM {
      * @param string|integer $idColumn
      * @return ORM
     */
-    public function useIdColumn($idColumn) {
+    public function useIdColumn($idColumn)
+    {
         $this->_instanceIdColumn = $idColumn;
         return $this;
     }
-    
+
     /**
      * Create an ORM instance from the given row (an associative
      * array of data fetched from the database)
      * @param array $row
      * @return ORM
      */
-    protected function _createInstanceFromRow($row) {
+    protected function _createInstanceFromRow($row)
+    {
         $instance = self::forTable($this->_tableName);
         $instance->useIdColumn($this->_getIdColumnName());
         $instance->hydrate($row);
         return $instance;
     }
-    
+
     /**
      * Look for a specific row
      * @param integer|string $id
      * @return ORM
      */
-    public function findOne($id = null) {
+    public function findOne($id = null)
+    {
         if (!is_null($id)) {
             $this->whereIdIs($id);
         }
@@ -378,24 +395,26 @@ class ORM {
         }
         return $this->_createInstanceFromRow($rows[0]);
     }
-    
+
     /**
      * Look up more then one row and return them as ORM instances
      * @return array|ORM
      */
-    public function findMany() {
+    public function findMany()
+    {
         $rows = $this->_run();
-        return array_map(array($this, '_createInstanceFromRow'), $rows);
+        return array_map([$this, '_createInstanceFromRow'], $rows);
     }
     /**
      * Returns a list of objects based on the called class
      * @return mixed|array
      */
-    public function getList() {
+    public function getList()
+    {
         global $inflect;
         $find = $this->findMany();
         if (!empty($find)) {
-            $list = array();
+            $list = [];
             // check if a prefix was added to the table name
             if (substr($this->_tableName, 0, strlen(DB_PREF)) === DB_PREF) {
                 $tblName = preg_replace('/' . DB_PREF . '/', '', $this->_tableName);
@@ -403,7 +422,7 @@ class ORM {
                 $tblName = $this->_tableName;
             }
             $model = $inflect->singularize($tblName);
-            
+
             foreach ($find as $object) {
                 $list[] = new $model($object->id);
             }
@@ -413,86 +432,94 @@ class ORM {
     }
     /**
      * Look up multiple results as array
-     * @return array 
+     * @return array
      */
-    public function findArray() {
+    public function findArray()
+    {
         return $this->_run();
     }
-    
+
     /**
      * Returns the number of rows
-     * @param type $column 
+     * @param type $column
      * @returnt integer
      */
-    public function count($column = '*') {
+    public function count($column = '*')
+    {
         return $this->_callAggregateDbFunction(__FUNCTION__, $column);
     }
-    
+
     /**
      * Returns the max value of the chosen column
      * @param string $column
-     * @return integer 
+     * @return integer
      */
-    public function max($column) {
+    public function max($column)
+    {
         return $this->_callAggregateDbFunction(__FUNCTION__, $column);
     }
-    
+
     /**
      * Will return the average value of the chosen column
-     * @param string $column 
+     * @param string $column
      * @return integer
      */
-    public function avg($column) {
+    public function avg($column)
+    {
         return $this->_callAggregateDbFunction(__FUNCTION__, $column);
     }
-    
+
     /**
      * Returns the sum of all values of the chosen column
-     * @param string $column 
+     * @param string $column
      * @return integer
      */
-    public function sum($column) {
+    public function sum($column)
+    {
         return $this->_callAggregateDbFunction(__FUNCTION__, $column);
     }
-    
+
     /**
      * Performs an aggregate function on the current database
      * @param string $sqlFunction the function to call
-     * @param string $column 
+     * @param string $column
      * @return integer
      */
-    protected function _callAggregateDbFunction($sqlFunction, $column) {
+    protected function _callAggregateDbFunction($sqlFunction, $column)
+    {
         $alias = strtolower($sqlFunction);
         $sqlFunction = strtoupper($sqlFunction);
-        
+
         if ($column != '*') {
             $column = $this->_quoteIdentifier($column);
         }
-        
+
         $this->selectExpr("$sqlFunction($column)", $alias);
         $result = $this->findOne();
         return ($result !== false && isset($result->$alias)) ? (int) $result->$alias : 0;
     }
-    
+
     /**
      * Populates class fields
-     * @param array $data 
+     * @param array $data
      * @return ORM
      */
-    public function hydrate($data = array()) {
+    public function hydrate($data = [])
+    {
         $this->_data = $data;
         return $this;
     }
-    
+
     /**
      * Force all data to be dirty, making them update when save() is called
      * @return ORM
      */
-    public function forceAllDirty() {
+    public function forceAllDirty()
+    {
         $this->_dirtyFields = $this->_data;
         return $this;
     }
-    
+
     /**
      * Perform a raw query. The query can contain placeholders in
      * either named or question mark style. If placeholders are
@@ -503,23 +530,25 @@ class ORM {
      * @param array $parameters
      * @return ORM
      */
-    public function rawQuery($query, $parameters = array()) {
+    public function rawQuery($query, $parameters = [])
+    {
         $this->_isRawQuery = true;
         $this->_rawQuery = $query;
         $this->_rawParameters = $parameters;
         return $this;
     }
-    
+
     /**
      * Add an alias for the main table to be used in queries
      * @param string $alias
      * @return ORM
      */
-    public function tableAlias($alias) {
+    public function tableAlias($alias)
+    {
         $this->_tableAlias = $alias;
         return $this;
     }
-    
+
     /**
      * Internal method to add an unquoted expression to the set
      * of columns returned by the select query. The second optional
@@ -528,19 +557,20 @@ class ORM {
      * @param string $alias
      * @return ORM
      */
-    protected function _addResultColumn($expr, $alias = null) {
+    protected function _addResultColumn($expr, $alias = null)
+    {
         if (!is_null($alias)) {
             $expr .= " AS " . $this->_quoteIdentifier($alias);
         }
         if ($this->_usingDefaultResultColumns) {
-            $this->_resultColumns = array($expr);
+            $this->_resultColumns = [$expr];
             $this->_usingDefaultResultColumns = false;
         } else {
             $this->_resultColumns[] = $expr;
         }
         return $this;
     }
-    
+
     /**
      * Add a column to the list of columns returned by the SELECT
      * query. This defaults to '*'. The second optional argument is
@@ -549,11 +579,12 @@ class ORM {
      * @param string $alias
      * @return ORM
      */
-    public function select($column, $alias=null) {
+    public function select($column, $alias=null)
+    {
         $column = $this->_quoteIdentifier($column);
         return $this->_addResultColumn($column, $alias);
     }
-    
+
     /**
      * Add an unquoted expression to the list of columns returned
      * by the select query. The second optional argument is
@@ -562,25 +593,27 @@ class ORM {
      * @param string $alias
      * @return ORM
      */
-    public function selectExpr($expr, $alias = null) {
+    public function selectExpr($expr, $alias = null)
+    {
         return $this->_addResultColumn($expr, $alias);
     }
-    
+
     /**
      * Add columns to the list of columns returned by the select
      * query. This defaults to '*'. Many columns can be supplied
      * as either an array or as a list of parameters to the method.
-     * 
+     *
      * Note that the alias must not be numeric - if you want a
      * numeric alias then prepend it with some alpha chars. eg. a1
-     * 
+     *
      * @example selectMany(array('alias' => 'column', 'column2', 'alias2' => 'column3'), 'column4', 'column5');
      * @example selectMany('column', 'column2', 'column3');
      * @example selectMany(array('column', 'column2', 'column3'), 'column4', 'column5');
-     * 
+     *
      * @return ORM
      */
-    public function selectMany() {
+    public function selectMany()
+    {
         $columns = func_get_args();
         if(!empty($columns)) {
             $columns = $this->_normaliseSelectManyColumns($columns);
@@ -593,24 +626,25 @@ class ORM {
         }
         return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Add an unquoted expression to the list of columns returned
-     * by the select query. Many columns can be supplied as either 
+     * by the select query. Many columns can be supplied as either
      * an array or as a list of parameters to the method.
-     * 
+     *
      * Note that the alias must not be numeric - if you want a
      * numeric alias then prepend it with some alpha chars. eg. a1
-     * 
+     *
      * @example selectManyExpr(array('alias' => 'column', 'column2', 'alias2' => 'column3'), 'column4', 'column5')
      * @example selectManyExpr('column', 'column2', 'column3')
      * @example selectManyExpr(array('column', 'column2', 'column3'), 'column4', 'column5')
-     * 
+     *
      * @return ORM
      */
-    public function selectManyExpr() {
+    public function selectManyExpr()
+    {
         $columns = func_get_args();
         if(!empty($columns)) {
             $columns = $this->_normaliseSelectManyColumns($columns);
@@ -623,20 +657,21 @@ class ORM {
         }
         return $this;
     }
-    
+
     /**
      * Take a column specification for the select many methods and convert it
      * into a normalised array of columns and aliases.
-     * 
+     *
      * It is designed to turn the following styles into a normalised array:
-     * 
+     *
      * array(array('alias' => 'column', 'column2', 'alias2' => 'column3'), 'column4', 'column5'))
-     * 
+     *
      * @param array $columns
      * @return array
      */
-    protected function _normaliseSelectManyColumns($columns) {
-        $return = array();
+    protected function _normaliseSelectManyColumns($columns)
+    {
+        $return = [];
         foreach($columns as $column) {
             if(is_array($column)) {
                 foreach($column as $key => $value) {
@@ -652,21 +687,22 @@ class ORM {
         }
         return $return;
     }
-    
+
     /**
      * Add a distinct keyword before the list of columns in the select query
      */
-    public function distinct() {
+    public function distinct()
+    {
         $this->_distinct = true;
         return $this;
     }
-    
+
     /**
      * Internal method to add a JOIN source to the query.
      *
      * @param string $joinOperator The joinOperator should be one of INNER, LEFT OUTER, CROSS etc - this
      * will be prepended to JOIN.
-     * @param string $table should be the name of the table to join to. 
+     * @param string $table should be the name of the table to join to.
      * @param string|array $constraint The constraint may be either a string or an array with three elements. If it
      * is a string, it will be compiled into the query as-is, with no escaping. The
      * recommended way to supply the constraint is as an array with three elements:
@@ -681,10 +717,11 @@ class ORM {
      * @param string $tableAlias
      * @return ORM
      */
-    protected function _addJoinSource($joinOperator, $table, $constraint, $tableAlias = null) {
+    protected function _addJoinSource($joinOperator, $table, $constraint, $tableAlias = null)
+    {
         $joinOperator = trim("{$joinOperator} JOIN");
         $table = $this->_quoteIdentifier($table);
-        
+
         // Add table alias if present
         if (!is_null($tableAlias)) {
             $tableAlias = $this->_quoteIdentifier($tableAlias);
@@ -700,10 +737,10 @@ class ORM {
         $this->_joinSources[] = "{$joinOperator} {$table} ON {$constraint}";
         return $this;
     }
-    
+
     /**
      * Add a simple JOIN source to the query
-     * @param string $table should be the name of the table to join to. 
+     * @param string $table should be the name of the table to join to.
      * @param string|array $constraint The constraint may be either a string or an array with three elements. If it
      * is a string, it will be compiled into the query as-is, with no escaping. The
      * recommended way to supply the constraint is as an array with three elements:
@@ -718,13 +755,14 @@ class ORM {
      * @param string $tableAlias
      * @return ORM
      */
-    public function join($table, $constraint, $tableAlias = null) {
+    public function join($table, $constraint, $tableAlias = null)
+    {
         return $this->_addJoinSource("", $table, $constraint, $tableAlias);
     }
-    
+
     /**
      * Add a simple INNER JOIN source to the query
-     * @param string $table should be the name of the table to join to. 
+     * @param string $table should be the name of the table to join to.
      * @param string|array $constraint The constraint may be either a string or an array with three elements. If it
      * is a string, it will be compiled into the query as-is, with no escaping. The
      * recommended way to supply the constraint is as an array with three elements:
@@ -739,13 +777,14 @@ class ORM {
      * @param string $tableAlias
      * @return ORM
      */
-    public function innerJoin($table, $constraint, $tableAlias = null) {
+    public function innerJoin($table, $constraint, $tableAlias = null)
+    {
         return $this->_addJoinSource("INNER", $table, $constraint, $tableAlias);
     }
-    
+
     /**
      * Add a simple LEFT OUTER JOIN source to the query
-     * @param string $table should be the name of the table to join to. 
+     * @param string $table should be the name of the table to join to.
      * @param string|array $constraint The constraint may be either a string or an array with three elements. If it
      * is a string, it will be compiled into the query as-is, with no escaping. The
      * recommended way to supply the constraint is as an array with three elements:
@@ -760,12 +799,13 @@ class ORM {
      * @param string $tableAlias
      * @return ORM
      */
-    public function leftOuterJoin($table, $constraint, $tableAlias=null) {
+    public function leftOuterJoin($table, $constraint, $tableAlias=null)
+    {
         return $this->_addJoinSource("LEFT OUTER", $table, $constraint, $tableAlias);
     }
     /**
      * Add a simple RIGHT OUTER JOIN source to the query
-     * @param string $table should be the name of the table to join to. 
+     * @param string $table should be the name of the table to join to.
      * @param string|array $constraint The constraint may be either a string or an array with three elements. If it
      * is a string, it will be compiled into the query as-is, with no escaping. The
      * recommended way to supply the constraint is as an array with three elements:
@@ -780,12 +820,13 @@ class ORM {
      * @param string $tableAlias
      * @return ORM
      */
-    public function rightOuterJoin($table, $constraint, $tableAlias=null) {
+    public function rightOuterJoin($table, $constraint, $tableAlias=null)
+    {
         return $this->_addJoinSource("RIGHT OUTER", $table, $constraint, $tableAlias);
     }
     /**
      * Add a simple FULL OUTER JOIN source to the query
-     * @param string $table should be the name of the table to join to. 
+     * @param string $table should be the name of the table to join to.
      * @param string|array $constraint The constraint may be either a string or an array with three elements. If it
      * is a string, it will be compiled into the query as-is, with no escaping. The
      * recommended way to supply the constraint is as an array with three elements:
@@ -800,27 +841,29 @@ class ORM {
      * @param string $tableAlias
      * @return ORM
      */
-    public function fullOuterJoin($table, $constraint, $tableAlias=null) {
+    public function fullOuterJoin($table, $constraint, $tableAlias=null)
+    {
         return $this->_addJoinSource("FULL OUTER", $table, $constraint, $tableAlias);
     }
-    
+
     /**
      * Internal method to add a WHERE condition to the query
      * @param string $fragment
      * @param array $values
      * @return ORM
      */
-    protected function _addWhere($fragment, $values = array()) {
+    protected function _addWhere($fragment, $values = [])
+    {
         if (!is_array($values)) {
-            $values = array($values);
+            $values = [$values];
         }
-        $this->_whereConditions[] = array(
+        $this->_whereConditions[] = [
             self::WHERE_FRAGMENT => $fragment,
             self::WHERE_VALUES => $values,
-        );
+        ];
         return $this;
     }
-    
+
     /**
      * Helper method to compile a simple COLUMN SEPARATOR VALUE
      * style WHERE condition into a string and value ready to
@@ -831,23 +874,25 @@ class ORM {
      * @param string $value
      * @return ORM
      */
-    protected function _addSimpleWhere($columnName, $separator, $value) {
+    protected function _addSimpleWhere($columnName, $separator, $value)
+    {
         // Add the table name in case of ambiguous columns
         if (count($this->_joinSources) > 0 && strpos($columnName, '.') === false) {
             $columnName = "{$this->_tableName}.{$columnName}";
         }
         $columnName = $this->_quoteIdentifier($columnName);
         return $this->_addWhere("{$columnName} {$separator} ?", $value);
-    }    
+    }
     /**
      * Return a string containing the given number of question marks,
      * separated by commas. Eg "?, ?, ?"
      * @param array $fields
      * @return string
      */
-    protected function _createPlaceholders($fields) {
+    protected function _createPlaceholders($fields)
+    {
         if(!empty($fields)) {
-            $db_fields = array();
+            $db_fields = [];
             foreach($fields as $key => $value) {
                 // Process expression fields directly into the query
                 if(array_key_exists($key, $this->_exprFields)) {
@@ -859,7 +904,7 @@ class ORM {
             return implode(', ', $db_fields);
         }
     }
-    
+
     /**
      * Add a WHERE column = value clause to your query. Each time
      * this is called in the chain, an additional WHERE will be
@@ -869,7 +914,8 @@ class ORM {
      * @param string @value
      * @return ORM
      */
-    public function where($columnName, $value) {
+    public function where($columnName, $value)
+    {
         return $this->whereEqual($columnName, $value);
     }
     /**
@@ -879,7 +925,8 @@ class ORM {
      * @param string $value
      * @return ORM
      */
-    public function whereEqual($columnName, $value) {
+    public function whereEqual($columnName, $value)
+    {
         return $this->_addSimpleWhere($columnName, '=', $value);
     }
     /**
@@ -888,7 +935,8 @@ class ORM {
      * @param string $value
      * @return ORM
      */
-    public function whereNotEqual($columnName, $value) {
+    public function whereNotEqual($columnName, $value)
+    {
         return $this->_addSimpleWhere($columnName, '!=', $value);
     }
     /**
@@ -896,7 +944,8 @@ class ORM {
      * @param integer $id
      * @return ORM
      */
-    public function whereIdIs($id) {
+    public function whereIdIs($id)
+    {
         return $this->where($this->_getIdColumnName(), $id);
     }
     /**
@@ -905,7 +954,8 @@ class ORM {
      * @param string $value
      * @return ORM
      */
-    public function whereLike($columnName, $value) {
+    public function whereLike($columnName, $value)
+    {
         return $this->_addSimpleWhere($columnName, 'LIKE', $value);
     }
     /**
@@ -914,7 +964,8 @@ class ORM {
      * @param string $value
      * @return ORM
      */
-    public function whereNotLike($columnName, $value) {
+    public function whereNotLike($columnName, $value)
+    {
         return $this->_addSimpleWhere($columnName, 'NOT LIKE', $value);
     }
     /**
@@ -923,7 +974,8 @@ class ORM {
      * @param string $value
      * @return ORM
      */
-    public function whereGt($columnName, $value) {
+    public function whereGt($columnName, $value)
+    {
         return $this->_addSimpleWhere($columnName, '>', $value);
     }
     /**
@@ -932,7 +984,8 @@ class ORM {
      * @param string $value
      * @return ORM
      */
-    public function whereLt($columnName, $value) {
+    public function whereLt($columnName, $value)
+    {
         return $this->_addSimpleWhere($columnName, '<', $value);
     }
     /**
@@ -941,7 +994,8 @@ class ORM {
      * @param string $value
      * @return ORM
      */
-    public function whereGte($columnName, $value) {
+    public function whereGte($columnName, $value)
+    {
         return $this->_addSimpleWhere($columnName, '>=', $value);
     }
     /**
@@ -950,7 +1004,8 @@ class ORM {
      * @param string $value
      * @return ORM
      */
-    public function whereLte($columnName, $value) {
+    public function whereLte($columnName, $value)
+    {
         return $this->_addSimpleWhere($columnName, '<=', $value);
     }
     /**
@@ -959,7 +1014,8 @@ class ORM {
      * @param array $values
      * @return ORM
      */
-    public function whereIn($columnName, $values) {
+    public function whereIn($columnName, $values)
+    {
         $columnName = $this->_quoteIdentifier($columnName);
         $placeholders = $this->_createPlaceholders($values);
         return $this->_addWhere("{$columnName} IN ({$placeholders})", $values);
@@ -970,7 +1026,8 @@ class ORM {
      * @param array $values
      * @return ORM
      */
-    public function whereNotIn($columnName, $values) {
+    public function whereNotIn($columnName, $values)
+    {
         $columnName = $this->_quoteIdentifier($columnName);
         $placeholders = $this->_createPlaceholders($values);
         return $this->_addWhere("{$columnName} NOT IN ({$placeholders})", $values);
@@ -981,7 +1038,8 @@ class ORM {
      * @param array $values
      * @return ORM
      */
-    public function whereNull($columnName) {
+    public function whereNull($columnName)
+    {
         $columnName = $this->_quoteIdentifier($columnName);
         return $this->_addWhere("{$columnName} IS NULL");
     }
@@ -990,7 +1048,8 @@ class ORM {
      * @param string $columnName
      * @return ORM
      */
-    public function whereNotNull($columnName) {
+    public function whereNotNull($columnName)
+    {
         $columnName = $this->_quoteIdentifier($columnName);
         return $this->_addWhere("{$columnName} IS NOT NULL");
     }
@@ -1002,7 +1061,8 @@ class ORM {
      * @param array $parameters
      * @return ORM
      */
-    public function whereRaw($clause, $parameters = array()) {
+    public function whereRaw($clause, $parameters = [])
+    {
         return $this->_addWhere($clause, $parameters);
     }
     /**
@@ -1010,7 +1070,8 @@ class ORM {
      * @param integer $limit
      * @return ORM
      */
-    public function limit($limit) {
+    public function limit($limit)
+    {
         $this->_limit = $limit;
         return $this;
     }
@@ -1019,7 +1080,8 @@ class ORM {
      * @param integer $offset
      * @return ORM
      */
-    public function offset($offset) {
+    public function offset($offset)
+    {
         $this->_offset = $offset;
         return $this;
     }
@@ -1029,7 +1091,8 @@ class ORM {
      * @param string $ordering
      * @return ORM
      */
-    protected function _addOrderBy($columnName, $ordering) {
+    protected function _addOrderBy($columnName, $ordering)
+    {
         $columnName = $this->_quoteIdentifier($columnName);
         $this->_orderBy[] = "{$columnName} {$ordering}";
         return $this;
@@ -1039,7 +1102,8 @@ class ORM {
      * @param string $columnName
      * @return ORM
      */
-    public function orderByDesc($columnName) {
+    public function orderByDesc($columnName)
+    {
         return $this->_addOrderBy($columnName, 'DESC');
     }
     /**
@@ -1047,7 +1111,8 @@ class ORM {
      * @param string $columnName
      * @return ORM
      */
-    public function orderByAsc($columnName) {
+    public function orderByAsc($columnName)
+    {
         return $this->_addOrderBy($columnName, 'ASC');
     }
     /**
@@ -1055,7 +1120,8 @@ class ORM {
      * @param string $clause
      * @return ORM
      */
-    public function orderByExpr($clause) {
+    public function orderByExpr($clause)
+    {
         $this->_order_by[] = $clause;
         return $this;
     }
@@ -1064,17 +1130,19 @@ class ORM {
      * @param string $columnName
      * @return ORM
      */
-    public function groupBy($columnName) {
+    public function groupBy($columnName)
+    {
         $columnName = $this->_quoteIdentifier($columnName);
         $this->_groupBy[] = $columnName;
         return $this;
     }
     /**
-     * Add an unquoted expression to the list of columns to GROUP BY 
+     * Add an unquoted expression to the list of columns to GROUP BY
      * @param string $expr
      * @return ORM
      */
-    public function groupByExpr($expr) {
+    public function groupByExpr($expr)
+    {
         $this->_groupBy[] = $expr;
         return $this;
     }
@@ -1083,7 +1151,8 @@ class ORM {
      * been passed to this instance by chaining method calls.
      * @return ORM
      */
-    protected function _buildSelect() {
+    protected function _buildSelect()
+    {
         // If the query is raw, just set the $this->_values to be
         // the raw query parameters and return the raw query
         if ($this->_isRawQuery) {
@@ -1092,7 +1161,7 @@ class ORM {
         }
         // Build and return the full SELECT statement by concatenating
         // the results of calling each separate builder method.
-        return $this->_joinIfNotEmpty(" ", array(
+        return $this->_joinIfNotEmpty(" ", [
             $this->_buildSelectStart(),
             $this->_buildJoin(),
             $this->_buildWhere(),
@@ -1100,13 +1169,14 @@ class ORM {
             $this->_buildOrderBy(),
             $this->_buildLimit(),
             $this->_buildOffset(),
-        ));
+        ]);
     }
     /**
      * Build the start of the SELECT statement
      * @return string
      */
-    protected function _buildSelectStart() {
+    protected function _buildSelectStart()
+    {
         $resultColumns = join(', ', $this->_resultColumns);
         if ($this->_distinct) {
             $resultColumns = 'DISTINCT ' . $resultColumns;
@@ -1121,7 +1191,8 @@ class ORM {
      * Build the JOIN sources
      * @return string
      */
-    protected function _buildJoin() {
+    protected function _buildJoin()
+    {
         if (count($this->_joinSources) === 0) {
             return '';
         }
@@ -1131,12 +1202,13 @@ class ORM {
      * Build the WHERE clause(s)
      * @return string
      */
-    protected function _buildWhere() {
+    protected function _buildWhere()
+    {
         // If there are no WHERE clauses, return empty string
         if (count($this->_whereConditions) === 0) {
             return '';
         }
-        $where_conditions = array();
+        $where_conditions = [];
         foreach ($this->_whereConditions as $condition) {
             $where_conditions[] = $condition[self::WHERE_FRAGMENT];
             $this->_values = array_merge($this->_values, $condition[self::WHERE_VALUES]);
@@ -1147,7 +1219,8 @@ class ORM {
      * Build GROUP BY
      * @return string
      */
-    protected function _buildGroupBy() {
+    protected function _buildGroupBy()
+    {
         if (count($this->_groupBy) === 0) {
             return '';
         }
@@ -1157,7 +1230,8 @@ class ORM {
      * Build ORDER BY
      * @return string
      */
-    protected function _buildOrderBy() {
+    protected function _buildOrderBy()
+    {
         if (count($this->_orderBy) === 0) {
             return '';
         }
@@ -1167,7 +1241,8 @@ class ORM {
      * Build LIMIT
      * @return string
      */
-    protected function _buildLimit() {
+    protected function _buildLimit()
+    {
         if (!is_null($this->_limit)) {
             return "LIMIT " . $this->_limit;
         }
@@ -1177,7 +1252,8 @@ class ORM {
      * Build OFFSET
      * @return string
      */
-    protected function _buildOffset() {
+    protected function _buildOffset()
+    {
         if (!is_null($this->_offset)) {
             return "OFFSET " . $this->_offset;
         }
@@ -1190,8 +1266,9 @@ class ORM {
      * @param array $pieces
      * @return array
      */
-    protected function _joinIfNotEmpty($glue, $pieces) {
-        $filtered_pieces = array();
+    protected function _joinIfNotEmpty($glue, $pieces)
+    {
+        $filtered_pieces = [];
         foreach ($pieces as $piece) {
             if (is_string($piece)) {
                 $piece = trim($piece);
@@ -1209,9 +1286,10 @@ class ORM {
      * @param string $identifier
      * @return string
      */
-    protected function _quoteIdentifier($identifier) {
+    protected function _quoteIdentifier($identifier)
+    {
         $parts = explode('.', $identifier);
-        $parts = array_map(array($this, '_quoteIdentifierPart'), $parts);
+        $parts = array_map([$this, '_quoteIdentifierPart'], $parts);
         return join('.', $parts);
     }
     /**
@@ -1221,7 +1299,8 @@ class ORM {
      * @param string $part
      * @return string
      */
-    protected function _quoteIdentifierPart($part) {
+    protected function _quoteIdentifierPart($part)
+    {
         if ($part === '*') {
             return $part;
         }
@@ -1234,7 +1313,8 @@ class ORM {
      * @param array $parameter
      * @return string
      */
-    protected static function _createCacheKey($query, $parameters) {
+    protected static function _createCacheKey($query, $parameters)
+    {
         $parameter_string = join(',', $parameters);
         $key = $query . ':' . $parameter_string;
         return sha1($key);
@@ -1243,7 +1323,8 @@ class ORM {
      * Check the query cache for the given cache key. If a value
      * is cached for the key, return the value. Otherwise, return false.
      */
-    protected static function _checkQueryCache($cache_key) {
+    protected static function _checkQueryCache($cache_key)
+    {
         if (isset(self::$_queryCache[$cache_key])) {
             return self::$_queryCache[$cache_key];
         }
@@ -1252,16 +1333,18 @@ class ORM {
     /**
      * Clear the query cache
      */
-    public static function clearCache() {
-        self::$_queryCache = array();
+    public static function clearCache()
+    {
+        self::$_queryCache = [];
     }
     /**
      * Add the given value to the query cache.
      */
-    protected static function _cacheQueryResult($cache_key, $value) {
+    protected static function _cacheQueryResult($cache_key, $value)
+    {
         self::$_queryCache[$cache_key] = $value;
     }
-    
+
     /**
      * Forces to ignore the cache
      * @return \ORM
@@ -1276,11 +1359,12 @@ class ORM {
      * on this class. Return an array of rows as associative arrays.
      * @return array
      */
-    protected function _run() {
+    protected function _run()
+    {
         $query = $this->_buildSelect();
         $caching_enabled = self::$_config['caching'];
         $cache_key = self::_createCacheKey($query, $this->_values);
-        
+
         if ($caching_enabled && !$this->_ignoreCache) {
             $cached_result = self::_checkQueryCache($cache_key);
             if ($cached_result !== false) {
@@ -1290,7 +1374,7 @@ class ORM {
         self::_logQuery($query, $this->_values);
         $statement = self::$_db->prepare($query);
         $statement->execute($this->_values);
-        $rows = array();
+        $rows = [];
         while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
             $rows[] = $row;
         }
@@ -1306,7 +1390,8 @@ class ORM {
      * if so, only those keys will be returned.
      * @return array
      */
-    public function asArray() {
+    public function asArray()
+    {
         if (func_num_args() === 0) {
             return $this->_data;
         }
@@ -1318,7 +1403,8 @@ class ORM {
      * or null if not present.
      * @return string|integer
      */
-    public function get($key) {
+    public function get($key)
+    {
         return isset($this->_data[$key]) ? $this->_data[$key] : null;
     }
     /**
@@ -1326,7 +1412,8 @@ class ORM {
      * the primary key ID of the row.
      * @return string
      */
-    protected function _getIdColumnName() {
+    protected function _getIdColumnName()
+    {
         if (!is_null($this->_instanceIdColumn)) {
             return $this->_instanceIdColumn;
         }
@@ -1340,7 +1427,8 @@ class ORM {
      * Get the primary key ID of this object.
      * @return integer|string
      */
-    public function id() {
+    public function id()
+    {
         return $this->get($this->_getIdColumnName());
     }
     /**
@@ -1352,10 +1440,12 @@ class ORM {
      * @param string|integer|array $key
      * @param string|integer $value
      */
-    public function set($key, $value = null) {
+    public function set($key, $value = null)
+    {
         $this->_setOrmProperty($key, $value);
     }
-    public function set_expr($key, $value = null) {
+    public function set_expr($key, $value = null)
+    {
         $this->_setOrmProperty($key, $value, true);
     }
     /**
@@ -1364,9 +1454,10 @@ class ORM {
      * @param string|null $value
      * @param boolean $expr Whether this value should be treated as raw or not
      */
-    protected function _setOrmProperty($key, $value = null, $expr = false) {
+    protected function _setOrmProperty($key, $value = null, $expr = false)
+    {
         if (!is_array($key)) {
-            $key = array($key => $value);
+            $key = [$key => $value];
         }
         foreach ($key as $field => $value) {
             $this->_data[$field] = $value;
@@ -1384,7 +1475,8 @@ class ORM {
      * @param string $key
      * @return boolean
      */
-    public function isDirty($key) {
+    public function isDirty($key)
+    {
         return isset($this->_dirtyFields[$key]);
     }
     /**
@@ -1392,8 +1484,9 @@ class ORM {
      * to the database.
      * @return boolean|ORM
      */
-    public function save() {
-        $query = array();
+    public function save()
+    {
+        $query = [];
         // remove any expression fields as they are already baked into the query
         $values = array_values(array_diff_key($this->_dirtyFields, $this->_exprFields));
         if (!$this->_isNew) { // UPDATE
@@ -1416,18 +1509,19 @@ class ORM {
                 $this->_data[$this->_getIdColumnName()] = self::$_db->lastInsertId();
             }
         }
-        $this->_dirtyFields = array();
+        $this->_dirtyFields = [];
         return $success;
     }
-    
+
     /**
      * Build an UPDATE query
      * @return string
      */
-    protected function _buildUpdate() {
-        $query = array();
+    protected function _buildUpdate()
+    {
+        $query = [];
         $query[] = "UPDATE {$this->_quoteIdentifier($this->_tableName)} SET";
-        $field_list = array();
+        $field_list = [];
         foreach ($this->_dirtyFields as $key => $value) {
             if(!array_key_exists($key, $this->_exprFields)) {
                 $value = '?';
@@ -1444,7 +1538,8 @@ class ORM {
      * Build an INSERT query
      * @return string
      */
-    protected function _buildInsert() {
+    protected function _buildInsert()
+    {
         $query[] = "INSERT INTO";
         $query[] = $this->_quoteIdentifier($this->_tableName);
         $field_list = array_map(array($this, '_quoteIdentifier'), array_keys($this->_dirtyFields));
@@ -1458,17 +1553,18 @@ class ORM {
      * Delete this record from the database
      * @return boolean
      */
-    public function delete() {
-        $query = join(" ", array(
+    public function delete()
+    {
+        $query = join(" ", [
             "DELETE FROM",
             $this->_quoteIdentifier($this->_tableName),
             "WHERE",
             $this->_quoteIdentifier($this->_getIdColumnName()),
             "= ?",
-        ));
-        $params = array($this->id());
+        ]);
+        $params = [$this->id()];
         self::_logQuery($query, $params);
- 
+
         $statement = self::$_db->prepare($query);
         return $statement->execute($params);
     }
@@ -1476,39 +1572,45 @@ class ORM {
      * Delete many records from the database
      * @return boolean
      */
-    public function deleteMany() {
+    public function deleteMany()
+    {
         // Build and return the full DELETE statement by concatenating
         // the results of calling each separate builder method.
-        $query = $this->_joinIfNotEmpty(" ", array(
+        $query = $this->_joinIfNotEmpty(" ", [
             "DELETE FROM",
             $this->_quoteIdentifier($this->_tableName),
             $this->_buildWhere(),
-        ));
+        ]);
         $statement = self::$_db->prepare($query);
         return $statement->execute($this->_values);
     }
-    public function __get($key) {
+    public function __get($key)
+    {
         return $this->get($key);
     }
-    public function __set($key, $value) {
+    public function __set($key, $value)
+    {
         $this->set($key, $value);
     }
-    public function __unset($key) {
+    public function __unset($key)
+    {
         unset($this->_data[$key]);
         unset($this->_dirtyFields[$key]);
     }
-    public function __isset($key) {
+    public function __isset($key)
+    {
         return isset($this->_data[$key]);
     }
-    
-    
+
+
 }
 /**
  * A class to handle str_replace operations that involve quoted strings
  * @example ORMString::strReplaceOutsideQuotes('?', '%s', 'columnA = "Hello?" AND columnB = ?');
  * @example ORMString::value('columnA = "Hello?" AND columnB = ?')->replaceOutsideQuotes('?', '%s');
  */
-class ORMString {
+class ORMString
+{
     protected $subject;
     protected $search;
     protected $replace;
@@ -1517,7 +1619,8 @@ class ORMString {
      * @param string $subject
      * @return \self
      */
-    public static function value($subject) {
+    public static function value($subject)
+    {
         return new self($subject);
     }
     /**
@@ -1528,14 +1631,16 @@ class ORMString {
      * @param string $subject
      * @return string
      */
-    public static function strReplaceOutsideQuotes($search, $replace, $subject) {
+    public static function strReplaceOutsideQuotes($search, $replace, $subject)
+    {
         return self::value($subject)->replaceOutsideQuotes($search, $replace);
     }
     /**
      * Set the base string object
      * @param string $subject
      */
-    public function __construct($subject) {
+    public function __construct($subject)
+    {
         $this->subject = (string) $subject;
     }
     /**
@@ -1545,7 +1650,8 @@ class ORMString {
      * @param string $replace
      * @return string
      */
-    public function replaceOutsideQuotes($search, $replace) {
+    public function replaceOutsideQuotes($search, $replace)
+    {
         $this->search = $search;
         $this->replace = $replace;
         return $this->_strReplaceOutsideQuotes();
@@ -1555,7 +1661,8 @@ class ORMString {
      * of $this->search with $this->replace
      * @return string
      */
-    protected function _strReplaceOutsideQuotes() {
+    protected function _strReplaceOutsideQuotes()
+    {
         $re_valid = '/
                 # Validate string having embedded quoted substrings.
                 ^                           # Anchor to start of string.
@@ -1566,7 +1673,8 @@ class ORMString {
                 )*                          # Zero or more string chunks.
                 \z                          # Anchor to end of string.
                 /sx';
-        if (!preg_match($re_valid, $this->subject)) {
+        if (!preg_match($re_valid, $this->subject))
+        {
             throw new ORMStringException("Subject string is not valid in the replace_outside_quotes context.");
         }
         $re_parse = '/
@@ -1577,7 +1685,7 @@ class ORMString {
                   )                         # End $1: Quoted chunk.
                 | ([^\'"\\\\]+)             # or $2: an unquoted chunk (no escapes).
                 /sx';
-        return preg_replace_callback($re_parse, array($this, '_str_replace_outside_quotes_cb'), $this->subject);
+        return preg_replace_callback($re_parse, [$this, '_str_replace_outside_quotes_cb'], $this->subject);
     }
     /**
      * Process each matching chunk from preg_replace_callback replacing
@@ -1585,7 +1693,8 @@ class ORMString {
      * @param array $matches
      * @return string
      */
-    protected function _strReplaceOutsideQuotesCb($matches) {
+    protected function _strReplaceOutsideQuotesCb($matches)
+    {
         // Return quoted string chunks (in group $1) unaltered.
         if ($matches[1])
             return $matches[1];
@@ -1596,7 +1705,8 @@ class ORMString {
 /**
  * A placeholder for exceptions eminating from the IdiormString class
  */
-class ORMStringException extends Exception {
-    
+class ORMStringException extends Exception
+{
+
 }
 ?>
