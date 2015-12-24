@@ -32,7 +32,7 @@ class App
 	 */
 	private function _stripSlashesDeep($value)
 	{
-		$value = is_array($value) ? array_map(array($this, 'stripSlashesDeep'), $value) : stripcslashes($value);
+		$value = is_array($value) ? array_map([$this, 'stripSlashesDeep'], $value) : stripcslashes($value);
 
 		return $value;
 	}
@@ -55,7 +55,7 @@ class App
 	private function _unregisterGlobals()
 	{
 		if (ini_get('register_globals')) {
-			$array = array(
+			$array = [
 				'_SESSION',
 				'_POST',
 				'_GET',
@@ -63,7 +63,7 @@ class App
 				'_REQUEST',
 				'_SERVER',
 				'_ENV',
-				'_FILES');
+				'_FILES'];
 
 			foreach ($array as $value) {
 				foreach ($GLOBALS[$value] as $key => $var) {

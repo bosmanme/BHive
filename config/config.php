@@ -19,9 +19,9 @@ define('DEFAULT_TIMEZONE', 'Europe/Brussels');
 define('CHARSET', 'UTF-8');
 
 // Default Javascript, CSS and upload folder. If they do not exist, they will be created
-define('FOLDER_JS', 'js');
-define('FOLDER_CSS', 'css');
-define('FOLDER_UPLOADS', 'uploads');
+define('FOLDER_JS', 'assets/js');
+define('FOLDER_CSS', 'assets/css');
+define('FOLDER_UPLOADS', 'assets/uploads');
 
 // Database settings
 define('DB_NAME', 'mtc');
@@ -32,11 +32,8 @@ define('DB_PORT', '');
 define('DB_PREF', '');
 
 // Base path, the absolute path of your project
-if (substr($_SERVER['REMOTE_ADDR'],0,8) == "192.168.") {
-  define('BASE_PATH', 'http://' . $_SERVER['SERVER_NAME'] . '/www/' . $sitename);
-} else {
-  define('BASE_PATH', 'http://' . $_SERVER['SERVER_NAME']);
-}
+define('BASE_PATH', '');
+
 define('SITE_NAME', $sitename);
 
 // Default controller

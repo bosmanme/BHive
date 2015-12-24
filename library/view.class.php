@@ -52,7 +52,7 @@ class View
     {
         $html = new HTML();
 
-        if (file_exists(ROOT . DS . 'public' . DS . 'js' . DS . $this->_controller . DS . $this->_action . '.js')) {
+        if (file_exists('public' . DS . 'js' . DS . $this->_controller . DS . $this->_action . '.js')) {
             $script = $this->_controller . DS . $this->_action;
             $this->set('jsScript', $script);
         }
@@ -61,32 +61,32 @@ class View
         extract($this->_variables);
 
         if ($doNotRenderHeader == false) {
-            if (file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . 'header.php')) {
-                    include ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . 'header.php';
+            if (file_exists('app' . DS . 'views' . DS . $this->_controller . DS . 'header.php')) {
+                    include 'app' . DS . 'views' . DS . $this->_controller . DS . 'header.php';
             } else {
-                    include ROOT . DS . 'app' . DS . 'views' . DS . 'header.php';
+                    include 'app' . DS . 'views' . DS . 'header.php';
             }
         } else {
             // Include scripts manually
             if ($script) {
                 if (DEVELOPMENT_ENVIRONMENT) {
-                    echo '<script type="text/javascript" src="public' . DS . 'js' . DS . $script . '.js?' . time() . '"></script>';
+                    echo '<script type="text/javascript" src="' . FOLDER_JS . DS . $script . '.js?' . time() . '"></script>';
                 } else {
-                    echo '<script type="text/javascript" src="public' . DS . 'js' . DS . $script . '.js"></script>';
+                    echo '<script type="text/javascript" src="' . FOLDER_JS . DS . $script . '.js"></script>';
                 }
             }
         }
 
-        if (file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php')) {
+        if (file_exists('app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php')) {
 
-            include ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php';
+            include 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php';
         }
 
         if ($doNotRenderHeader == false) {
-            if (file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . 'footer.php')) {
-                    include ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . 'footer.php';
+            if (file_exists('app' . DS . 'views' . DS . $this->_controller . DS . 'footer.php')) {
+                    include 'app' . DS . 'views' . DS . $this->_controller . DS . 'footer.php';
             } else {
-                    include ROOT . DS . 'app' . DS . 'views' . DS . 'footer.php';
+                    include 'app' . DS . 'views' . DS . 'footer.php';
             }
         }
     }

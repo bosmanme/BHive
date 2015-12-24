@@ -27,7 +27,7 @@ class HTML
      */
 	public function includeJs($fileName, $cache = false)
     {
-        $data = '<script src="' . BASE_PATH . '/js/' . $fileName . '.js';
+        $data = '<script src="' . BASE_PATH . FOLDER_JS . DS . $fileName . '.js';
         if (!$cache) {
             $data .= '?' . time();
         }
@@ -45,7 +45,7 @@ class HTML
      */
 	public function includeCss($fileName, $cache = false)
     {
-        $data = '<link type="text/css" rel="stylesheet" href="' . BASE_PATH . '/css/' . $fileName . '.css';
+        $data = '<link type="text/css" rel="stylesheet" href="' . BASE_PATH . FOLDER_CSS . DS . $fileName . '.css';
         if (!$cache) {
             $data .= '?' . time();
         }

@@ -9,18 +9,18 @@ $inflect = new Inflection();
 function __autoload($className)
 {
     // Check if it's a class, controller or model
-    if (file_exists(ROOT. DS . 'library' . DS . strtolower($className) . '.class.php')) {
-        require_once ROOT. DS . 'library' . DS . strtolower($className) . '.class.php';
-    } elseif (file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS . strtolower($className) . '.php')) {
-        require_once ROOT . DS . 'app' . DS . 'controllers' . DS . strtolower($className) . '.php';
-    } elseif (file_exists(ROOT . DS . 'app' . DS . 'models' . DS . strtolower($className) . '.php')) {
-        require_once ROOT . DS . 'app' . DS . 'models' . DS . strtolower($className) . '.php';
+    if (file_exists('library' . DS . strtolower($className) . '.class.php')) {
+        require_once 'library' . DS . strtolower($className) . '.class.php';
+    } elseif (file_exists('app' . DS . 'controllers' . DS . strtolower($className) . '.php')) {
+        require_once 'app' . DS . 'controllers' . DS . strtolower($className) . '.php';
+    } elseif (file_exists('app' . DS . 'models' . DS . strtolower($className) . '.php')) {
+        require_once 'app' . DS . 'models' . DS . strtolower($className) . '.php';
     } else {
         /* Check if a descendant model exists base on camelcasing
         * For example: UserRole will be in models / user / role.php
         */
         $regex = '/(?<!^)((?<![[:upper:]])[[:upper:]]|[[:upper:]](?![[:upper:]]))/';
-        $path = ROOT . DS . 'app' . DS . 'models' . DS . strtolower(preg_replace($regex, '/$1', $className)) . '.php';
+        $path = 'app' . DS . 'models' . DS . strtolower(preg_replace($regex, '/$1', $className)) . '.php';
         if (file_exists($path)) {
             require_once $path;
         } else {
