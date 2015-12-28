@@ -37,12 +37,12 @@ function __autoload($className)
  * @param boolean $render
  * @return mixed
  */
-function performAction($controller,$action,$queryString = array(),$render = false)
+function performAction($controller,$action,$queryString = [],$render = false)
 {
     $controllerName = ucfirst($controller).'Controller';
     $dispatch = new $controllerName($controller,$action);
     $dispatch->render = $render;
-    return call_user_func_array(array($dispatch,$action),$queryString);
+    return call_user_func_array([$dispatch,$action],$queryString);
 }
 
 /**
