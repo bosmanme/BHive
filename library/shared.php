@@ -9,8 +9,8 @@ $inflect = new Inflection();
 function __autoload($className)
 {
     // Check if it's a class, controller or model
-    if (file_exists('library' . DS . strtolower($className) . '.class.php')) {
-        require_once 'library' . DS . strtolower($className) . '.class.php';
+    if (file_exists('library' . DS . 'classes' . DS . strtolower($className) . '.php')) {
+        require_once 'library' . DS . 'classes' . DS . strtolower($className) . '.php';
     } elseif (file_exists('app' . DS . 'controllers' . DS . strtolower($className) . '.php')) {
         require_once 'app' . DS . 'controllers' . DS . strtolower($className) . '.php';
     } elseif (file_exists('app' . DS . 'models' . DS . strtolower($className) . '.php')) {

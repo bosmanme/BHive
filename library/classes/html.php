@@ -9,6 +9,9 @@
 class HTML
 {
 
+	public static $doctypes = null;
+	public static $html5 = true;
+
     /**
      * Escapes a string
      * @param string $data
