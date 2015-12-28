@@ -52,7 +52,7 @@ class View
     {
         $html = new HTML();
 
-        if (file_exists('public' . DS . 'js' . DS . $this->_controller . DS . $this->_action . '.js')) {
+        if (file_exists('assets' . DS . 'js' . DS . $this->_controller . DS . $this->_action . '.js')) {
             $script = $this->_controller . DS . $this->_action;
             $this->set('jsScript', $script);
         }
