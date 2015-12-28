@@ -108,12 +108,12 @@ class Date extends DateTime
     {
         if (!$forceServerTimezone) {
             //Determin timezone
-            $user = User::isLoggedIn();
-            if ($user) {
-                $tz = $user->timezone ? $user->timezone : DEFAULT_TIMEZONE;
-            } else {
+            # $user = User::isLoggedIn();
+            # if ($user) {
+            #     $tz = $user->timezone ? $user->timezone : DEFAULT_TIMEZONE;
+            # } else {
                 $tz = DEFAULT_TIMEZONE;
-            }
+            # }
 
         } else {
             // Force server timezone
