@@ -24,7 +24,7 @@ define('FOLDER_CSS', 'assets/css');
 define('FOLDER_UPLOADS', 'assets/uploads');
 
 // Database settings
-define('DB_NAME', 'mtc');
+define('DB_NAME', 'vouchers');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_HOST', 'localhost');
