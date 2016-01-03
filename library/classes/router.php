@@ -17,8 +17,16 @@ class Router
 
 	public function route($url)
 	{
-
 		$this->url = $url;
+
+		// Check if the current url is defined in the config routes
+		global $routing;
+
+		foreach ($routing as $pattern => $route) {
+			if (preg_match($pattern, $url)) {
+				$this->url = preg_replace($pattern, $route, $url);
+			}
+		}
 
 		// Split the url
 		$urlArray = [];

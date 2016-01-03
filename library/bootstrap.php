@@ -10,6 +10,7 @@ session_start();
 
 require_once 'config' . DS . 'config.php';
 require_once 'config' . DS . 'inflection.php';
+require_once 'config' . DS . 'routes.php';
 require_once 'library' . DS . 'shared.php';
 
 // Check if the Js, CSS and upload foler exist. If not: create
