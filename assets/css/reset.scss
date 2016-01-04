@@ -1,7 +1,12 @@
-html,
-body,
-ul,
-ol {
+*,
+*:after,
+*:before {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
 }
