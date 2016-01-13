@@ -1,1 +1,1 @@
-Hi, this is a test variable: <?php echo $test; ?>
+

@@ -1,44 +1,106 @@
-/* Color scheme
-Found on https://wigetmedia.com/
-https://www.behance.net/gallery/31558229/Wiget-website-design */
-$clr-font-primary: #333;
-$clr-font-secondary: #5584ff;
-$clr-font-accent: #d2dbf4;
-$clr-font-accent2: #a0a1af;
-$clr-font-accent3: #505267;
-
 @import 'reset.scss';
 @import 'mixins.scss';
+@import 'colors.scss';
+@import 'grid.scss';
+
+/* https://scotch.io/tutorials/create-a-real-time-shoutbox-with-laravel-events */
 
 body {
-    color: #505267;
+    color: $clr-font-main;
     font-family: 'Open Sans',sans-serif;
-    background: #f0f0f8;
+    font-size: 1em;
+    line-height: 1em;
+    background: $clr-bg-main;
+}
+
+a {
+    text-decoration: none;
+    box-shadow: none;
+    outline: 0;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: 700;
+    list-height: 1.5em;
+    color: $clr-font-h;
+    margin: 0 auto;
+}
+
+/* Site header */
+header#site-header {
+    background: $clr-bg-light;
+}
+nav#main-nav {
+    width: 80em;
+    margin-bottom: 50px;
+
+    ul {
+
+        list-style: none;
+        text-align: center;
+        float: left;
+
+        li {
+            display: inline-block;
+            padding: 1em;
+
+            a {
+                display: block;
+                color: $clr-font-a;
+                transition: .2s ease all;
+                text-transform: uppercase;
+
+                &:hover {
+                    color: $clr-font-a-hover;
+                }
+            }
+        }
+
+    }
+
+    .logo {
+        background: $clr-bg-dark;
+        text-align: center;
+        padding: 1.5em;
+        img { height: 30px; }
+    }
+}
+header.title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+section#login {
+    form {
+        background: $clr-bg-accent;
+    }
+    aside {
+        background: $clr-bg-dark;
+    }
 }
 
 /* Form elements */
 button {
-
     border-radius: 3px;
     transition: background .3s,color .3s,border .3s ease;
 
     // Sizes
-    .large {
+    &.large {
         height: 55px;
         width: 315px;
         font-size: 15px;
     }
-    .medium {}
-    .small {}
-
+    &.medium {}
+    &.small {}
 
     // Colors
-    .blue {
+    &.blue {
         background: #5584ff;
         color: #f0f0f8;
         border: 0 solid #3d6deb;
     }
-    .darkBlue {
+    &.darkBlue {
         @extend .blue;
         background: #2a1647;
         color: #000;

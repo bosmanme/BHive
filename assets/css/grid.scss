@@ -1,6 +1,6 @@
 /* Grids */
 $grid-columns: 12;
-$grid-max-width: 65em;
+$grid-max-width: 100%;
 
 /* Breakpoints */
 $breakpoint-small: "only screen and (min-width: 20em)";
@@ -21,7 +21,6 @@ $breakpoint-medium: "only screen and (min-width: 30em)";
 
 @media #{$breakpoint-medium} {
     .grid {
-        width: 95%;
         max-width: $grid-max-width;
     }
 
@@ -29,5 +28,12 @@ $breakpoint-medium: "only screen and (min-width: 30em)";
         .column-#{$i} {
             width: 100% / $grid-columns * $i;
         }
+    }
+
+    .column-half {
+        width: 100% / $grid-columns * ($grid-columns / 2);
+    }
+    .column-full {
+        width: 100%;
     }
 }
