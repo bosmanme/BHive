@@ -55,20 +55,4 @@ function redirect($url)
     header('Location: ' . $url);
     exit();
 }
-
-/**
- * Debuff method
- * @param mixed $var
- * @param boolean $exit Stop execution?
- */
-function d($var, $exit = true)
-{
-    print '<pre>';
-    var_dump($var);
-    print '</pre>';
-
-    if ($exit) {
-        exit;
-    }
-}
 ?>
