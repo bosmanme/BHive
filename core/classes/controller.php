@@ -55,7 +55,7 @@ abstract class Controller extends App
 	protected function _getModel($model = false)
 	{
 
-        if (!$model) {
+        if ( ! $model) {
             $model = ucfirst(Inflection::singularize($this->_controller));
         }
 

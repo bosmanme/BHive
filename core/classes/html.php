@@ -31,7 +31,7 @@ class HTML
 	public function includeJs($fileName, $cache = false)
     {
         $data = '<script src="' . BASEPATH . FOLDER_JS . DS . $fileName . '.js';
-        if (!$cache) {
+        if ( ! $cache) {
             $data .= '?' . time();
         }
         $data .= '"></script>';
@@ -49,7 +49,7 @@ class HTML
 	public function includeCss($fileName, $cache = false)
     {
         $data = '<link type="text/css" rel="stylesheet" href="' . BASEPATH . FOLDER_CSS . DS . $fileName . '.css';
-        if (!$cache) {
+        if ( ! $cache) {
             $data .= '?' . time();
         }
         $data .= '" />';

@@ -200,7 +200,7 @@ class ORM
     protected static function _setupDb()
     {
 
-        if (!is_object(self::$_db)) {
+        if ( ! is_object(self::$_db)) {
             // Create the PDO connection
             $connectionString = self::$_config['connectionString'];
             $username = self::$_config['username'];
@@ -268,7 +268,7 @@ class ORM
     protected static function _logQuery($query, $paramaters)
     {
         // check if logging is enabled
-        if (!self::$_config['logging']) {
+        if ( ! self::$_config['logging']) {
             return false;
         }
         if (count($paramaters) > 0) {
@@ -342,7 +342,7 @@ class ORM
     public function create($data=null)
     {
         $this->_isNew = true;
-        if (!is_null($data)) {
+        if ( ! is_null($data)) {
             return $this->hydrate($data)->forceAllDirty();
         }
         return $this;
@@ -385,7 +385,7 @@ class ORM
      */
     public function findOne($id = null)
     {
-        if (!is_null($id)) {
+        if ( ! is_null($id)) {
             $this->whereIdIs($id);
         }
         $this->limit(1);
@@ -413,7 +413,7 @@ class ORM
     {
         global $inflect;
         $find = $this->findMany();
-        if (!empty($find)) {
+        if ( ! empty($find)) {
             $list = [];
             // check if a prefix was added to the table name
             if (substr($this->_tableName, 0, strlen(DB_PREF)) === DB_PREF) {
@@ -559,7 +559,7 @@ class ORM
      */
     protected function _addResultColumn($expr, $alias = null)
     {
-        if (!is_null($alias)) {
+        if ( ! is_null($alias)) {
             $expr .= " AS " . $this->_quoteIdentifier($alias);
         }
         if ($this->_usingDefaultResultColumns) {
@@ -615,7 +615,7 @@ class ORM
     public function selectMany()
     {
         $columns = func_get_args();
-        if(!empty($columns)) {
+        if( ! empty($columns)) {
             $columns = $this->_normaliseSelectManyColumns($columns);
             foreach($columns as $alias => $column) {
                 if(is_numeric($alias)) {
@@ -646,7 +646,7 @@ class ORM
     public function selectManyExpr()
     {
         $columns = func_get_args();
-        if(!empty($columns)) {
+        if( ! empty($columns)) {
             $columns = $this->_normaliseSelectManyColumns($columns);
             foreach($columns as $alias => $column) {
                 if(is_numeric($alias)) {
@@ -675,7 +675,7 @@ class ORM
         foreach($columns as $column) {
             if(is_array($column)) {
                 foreach($column as $key => $value) {
-                    if(!is_numeric($key)) {
+                    if( ! is_numeric($key)) {
                         $return[$key] = $value;
                     } else {
                         $return[] = $value;
@@ -723,7 +723,7 @@ class ORM
         $table = $this->_quoteIdentifier($table);
 
         // Add table alias if present
-        if (!is_null($tableAlias)) {
+        if (! is_null($tableAlias)) {
             $tableAlias = $this->_quoteIdentifier($tableAlias);
             $table .= " {$tableAlias}";
         }
@@ -854,7 +854,7 @@ class ORM
      */
     protected function _addWhere($fragment, $values = [])
     {
-        if (!is_array($values)) {
+        if (! is_array($values)) {
             $values = [$values];
         }
         $this->_whereConditions[] = [
@@ -1182,7 +1182,7 @@ class ORM
             $resultColumns = 'DISTINCT ' . $resultColumns;
         }
         $fragment = "SELECT {$resultColumns} FROM " . $this->_quoteIdentifier($this->_tableName);
-        if (!is_null($this->_tableAlias)) {
+        if (! is_null($this->_tableAlias)) {
             $fragment .= " " . $this->_quoteIdentifier($this->_tableAlias);
         }
         return $fragment;
@@ -1243,7 +1243,7 @@ class ORM
      */
     protected function _buildLimit()
     {
-        if (!is_null($this->_limit)) {
+        if (! is_null($this->_limit)) {
             return "LIMIT " . $this->_limit;
         }
         return '';
@@ -1254,7 +1254,7 @@ class ORM
      */
     protected function _buildOffset()
     {
-        if (!is_null($this->_offset)) {
+        if (! is_null($this->_offset)) {
             return "OFFSET " . $this->_offset;
         }
         return '';
@@ -1273,7 +1273,7 @@ class ORM
             if (is_string($piece)) {
                 $piece = trim($piece);
             }
-            if (!empty($piece)) {
+            if (! empty($piece)) {
                 $filtered_pieces[] = $piece;
             }
         }
@@ -1414,7 +1414,7 @@ class ORM
      */
     protected function _getIdColumnName()
     {
-        if (!is_null($this->_instanceIdColumn)) {
+        if (! is_null($this->_instanceIdColumn)) {
             return $this->_instanceIdColumn;
         }
         if (isset(self::$_config['idColumnOverrides'][$this->_tableName])) {
@@ -1456,7 +1456,7 @@ class ORM
      */
     protected function _setOrmProperty($key, $value = null, $expr = false)
     {
-        if (!is_array($key)) {
+        if (! is_array($key)) {
             $key = [$key => $value];
         }
         foreach ($key as $field => $value) {
@@ -1489,7 +1489,7 @@ class ORM
         $query = [];
         // remove any expression fields as they are already baked into the query
         $values = array_values(array_diff_key($this->_dirtyFields, $this->_exprFields));
-        if (!$this->_isNew) { // UPDATE
+        if (! $this->_isNew) { // UPDATE
             // If there are no dirty values, do nothing
             if (count($values) == 0) {
                 return true;
@@ -1523,7 +1523,7 @@ class ORM
         $query[] = "UPDATE {$this->_quoteIdentifier($this->_tableName)} SET";
         $field_list = [];
         foreach ($this->_dirtyFields as $key => $value) {
-            if(!array_key_exists($key, $this->_exprFields)) {
+            if (! array_key_exists($key, $this->_exprFields)) {
                 $value = '?';
             }
             $field_list[] = "{$this->_quoteIdentifier($key)} = $value";
@@ -1673,7 +1673,7 @@ class ORMString
                 )*                          # Zero or more string chunks.
                 \z                          # Anchor to end of string.
                 /sx';
-        if (!preg_match($re_valid, $this->subject))
+        if (! preg_match($re_valid, $this->subject))
         {
             throw new ORMStringException("Subject string is not valid in the replace_outside_quotes context.");
         }

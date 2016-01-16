@@ -106,7 +106,7 @@ class Date extends DateTime
      */
     public function format($format = null, $forceServerTimezone = false)
     {
-        if (!$forceServerTimezone) {
+        if ( ! $forceServerTimezone) {
             //Determin timezone
             # $user = User::isLoggedIn();
             # if ($user) {

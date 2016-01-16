@@ -29,7 +29,7 @@ class Debug
     public static function dump($variable, $caption = null)
     {
         // Don't dump when in live mode
-        if (!DEVELOPMENT_ENVIRONMENT) {
+        if ( ! DEVELOPMENT_ENVIRONMENT) {
             return;
         }
 
@@ -60,7 +60,7 @@ class Debug
         }
 
         $header = '';
-        if(!empty($caption)) {
+        if( ! empty($caption)) {
             $header = '<h2 style="' . self::_getHeaderCss() . '">' . $caption . '</h2>';
         }
 
