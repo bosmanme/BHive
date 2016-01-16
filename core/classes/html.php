@@ -88,4 +88,3 @@ class HTML
         return $_SERVER['REQUEST_URI'];
     }
 }
-?>

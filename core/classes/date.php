@@ -1427,5 +1427,3 @@ class Date extends DateTime
      }
 
 }
-
-?>

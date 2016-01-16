@@ -27,4 +27,3 @@ class Controller_User extends Controller
         $this->_getView()->render();
     }
 }
-?>

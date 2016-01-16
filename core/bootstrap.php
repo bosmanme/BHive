@@ -53,4 +53,3 @@ if (isset($_GET['url'])) {
 }
 
 $router->route($url);
-?>

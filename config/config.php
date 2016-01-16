@@ -44,4 +44,3 @@ define('DEFAULT_CONTROLLER', 'home');
 // Others
 define('DEVELOPMENT_ENVIRONMENT', true);
 define('DEFAULT_LANGUAGE', $language);
-?>

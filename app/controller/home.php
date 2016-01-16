@@ -23,4 +23,3 @@ class Controller_Home extends Controller
         $this->_getView()->render();
     }
 }
-?>

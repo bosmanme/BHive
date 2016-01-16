@@ -87,5 +87,3 @@ abstract class Controller extends App
      */
     public function afterAction(){}
 }
-
-?>

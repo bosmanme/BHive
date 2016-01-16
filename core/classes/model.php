@@ -51,4 +51,3 @@ class Model extends ORM
     }
 
 }
-?>

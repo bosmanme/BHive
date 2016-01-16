@@ -12,4 +12,3 @@ $irregularWords = array(
 );
 **/
 $irregularWords = [];
-?>
