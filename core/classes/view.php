@@ -61,10 +61,10 @@ class View
         extract($this->_variables);
 
         if ($doNotRenderHeader == false) {
-            if (file_exists('app' . DS . 'views' . DS . $this->_controller . DS . 'header.php')) {
-                    include 'app' . DS . 'views' . DS . $this->_controller . DS . 'header.php';
+            if (file_exists(APPPATH . 'views' . DS . $this->_controller . DS . 'header.php')) {
+                    include APPPATH . 'views' . DS . $this->_controller . DS . 'header.php';
             } else {
-                    include 'app' . DS . 'views' . DS . 'header.php';
+                    include APPPATH . 'views' . DS . 'header.php';
             }
         } else {
             // Include scripts manually
@@ -77,16 +77,16 @@ class View
             }
         }
 
-        if (file_exists('app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php')) {
+        if (file_exists(APPPATH . 'views' . DS . $this->_controller . DS . $this->_action . '.php')) {
 
-            include 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php';
+            include APPPATH . 'views' . DS . $this->_controller . DS . $this->_action . '.php';
         }
 
         if ($doNotRenderHeader == false) {
-            if (file_exists('app' . DS . 'views' . DS . $this->_controller . DS . 'footer.php')) {
-                    include 'app' . DS . 'views' . DS . $this->_controller . DS . 'footer.php';
+            if (file_exists(APPPATH . 'views' . DS . $this->_controller . DS . 'footer.php')) {
+                    include APPPATH . 'views' . DS . $this->_controller . DS . 'footer.php';
             } else {
-                    include 'app' . DS . 'views' . DS . 'footer.php';
+                    include APPPATH . 'views' . DS . 'footer.php';
             }
         }
     }

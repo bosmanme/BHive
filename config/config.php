@@ -31,8 +31,10 @@ define('DB_HOST', 'localhost');
 define('DB_PORT', '');
 define('DB_PREF', '');
 
-// Base path, the absolute path of your project
-define('BASE_PATH', '');
+// Paths
+define('BASEPATH', '');
+define('APPPATH', 'app' . DS);
+define('COREPATH', 'core' . DS);
 
 define('SITE_NAME', $sitename);
 

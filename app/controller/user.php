@@ -3,7 +3,7 @@
  * Home controller
  *
  */
-class HomeController extends Controller
+class Controller_User extends Controller
 {
     /**
      * Generates the index page (home page)
@@ -19,7 +19,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $this->_getView()->set('test', 'GitHub test');
+        $this->_getView()->set('var', '');
+        $this->_getView()->render();
+    }
+
+    public function login() {
         $this->_getView()->render();
     }
 }

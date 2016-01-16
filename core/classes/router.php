@@ -51,7 +51,8 @@ class Router
 			$action = 'index';
 		}
 
-		$controllerName = ucfirst($controller) . 'Controller';
+		$controllerName = 'Controller_' . ucfirst($controller);
+
 		if (class_exists($controllerName)) {
 			$dispatch = new $controllerName($controller, $action);
 
@@ -62,7 +63,6 @@ class Router
 			}
 		} else {
 			performAction(DEFAULT_CONTROLLER, 'error', [], true);
-
 		}
 	}
 
