@@ -20,7 +20,7 @@ class Autoloader
 	/**
 	 * @var  bool  whether to initialize a loaded class
 	 */
-	protected static $auto_initialize = null;
+	protected static $autoInitialize = null;
 
 	/**
 	 * Adds a classes load path.  Any class added here will not be searched for
@@ -115,9 +115,9 @@ class Autoloader
 		if (class_exists($class, false))
 		{
 			// call the classes static init if needed
-			if (static::$auto_initialize === $class)
+			if (static::$autoInitialize === $class)
 			{
-				static::$auto_initialize = null;
+				static::$autoInitialize = null;
 				if (method_exists($class, '_init') and is_callable($class.'::_init'))
 				{
 					call_user_func($class.'::_init');
