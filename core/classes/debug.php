@@ -29,7 +29,7 @@ class Debug
     public static function dump($variable, $caption = null)
     {
         // Don't dump when in live mode
-        if ( ! DEVELOPMENT_ENVIRONMENT) {
+        if ( App::$env != App::DEVELOPMENT) {
             return;
         }
 

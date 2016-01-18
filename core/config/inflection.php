@@ -7,8 +7,10 @@
 *
 */
 /** Irregular Words
-$irregularWords = array(
+return = array(
 	'singular' => 'plural'
 );
 **/
-$irregularWords = [];
+return [
+	'irregular words' = [],
+];

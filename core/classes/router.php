@@ -20,7 +20,8 @@ class Router
 		$this->url = $url;
 
 		// Check if the current url is defined in the config routes
-		global $routing;
+		Config::load('routes.php');
+		$routing = Config::get('routes', []);
 
 		foreach ($routing as $pattern => $route) {
 			if (preg_match($pattern, $url)) {
@@ -43,7 +44,7 @@ class Router
 
 		// if the controller is empty, redirect to the default controller
 		if (empty($controller)) {
-				$controller = DEFAULT_CONTROLLER;
+				$controller = 'home';
 		}
 
 		// if no method/action is given redirect to index
@@ -62,7 +63,7 @@ class Router
 				call_user_func_array(array($dispatch, 'afterAction'), $this->queryString);
 			}
 		} else {
-			performAction(DEFAULT_CONTROLLER, 'error', [], true);
+			performAction('home', 'error', [], true);
 		}
 	}
 

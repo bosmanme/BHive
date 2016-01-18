@@ -411,7 +411,7 @@ class ORM
      */
     public function getList()
     {
-        global $inflect;
+
         $find = $this->findMany();
         if ( ! empty($find)) {
             $list = [];
@@ -421,7 +421,7 @@ class ORM
             } else {
                 $tblName = $this->_tableName;
             }
-            $model = $inflect->singularize($tblName);
+            $model = Inflection::singularize($tblName);
 
             foreach ($find as $object) {
                 $list[] = new $model($object->id);

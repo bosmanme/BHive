@@ -4,11 +4,73 @@
  */
 class App
 {
+	/**
+	 * @var  string  The version number
+	 */
+	const VERSION = '1.0.0';
+
+	/**
+	 * @var  string  constant used for when in development
+	 */
+	const DEVELOPMENT = 'development';
+
+	/**
+	 * @var  string  constant used for when in production
+	 */
+	const PRODUCTION = 'production';
+
+	/**
+	 * @var  string  constant used for when testing the app in a staging env.
+	 */
+	const STAGING = 'staging';
+
+	/**
+	 * @var  bool  Whether the framework has been initialized
+	 */
+	public static $initialized = false;
+
+	protected static $_paths = [];
+
+	/**
+	 * @var  string  The Fuel environment
+	 */
+	public static $env = App::DEVELOPMENT;
+
+	public static $locale = 'en_US';
+
+	public static $timezone = 'UTC';
+
+	public static $encoding = 'UTF-8';
+
+	/**
+	 * Initializes the framework.  This can only be called once.
+	 *
+	 * @access	public
+	 * @return	void
+	 */
+	public static function init($config)
+	{
+		if (static::$initialized) {
+			return;
+		}
+
+		Config::load($config);
+
+		static::$_paths = [APPPATH, COREPATH];
+
+		static::$locale = Config::get('locale', static::$locale);
+
+		static::$encoding = Config::get('encoding', static::$encoding);
+
+		static::$timezone = Config::get('default_timezone') ?: date_default_timezone_get();
+		date_default_timezone_set(static::$timezone);
+
+	}
 
     /**
      * Create new App class instance
      */
-	function __construct()
+	public function __construct()
 	{
 		$this->_setRepporting();
 		$this->_removeMagicQuotes();
@@ -20,7 +82,7 @@ class App
      */
 	private function _setRepporting()
 	{
-		if (DEVELOPMENT_ENVIRONMENT == true) {
+		if (self::$env == App::DEVELOPMENT) {
 			error_reporting(E_ALL);
 		}
 	}

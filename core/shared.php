@@ -1,7 +1,4 @@
 <?php
-// Set inflection
-$inflect = new Inflection();
-
 /**
  * Secondary call function
  * @param string $controller
@@ -23,7 +20,6 @@ function performAction($controller,$action,$queryString = [],$render = false)
  */
 function redirect($url)
 {
-    $url = BASEPATH . $url;
     header('Location: ' . $url);
     exit();
 }

@@ -18,21 +18,21 @@ class Model extends ORM
 
     /**
      * Create a new model
-     * @global Inflect $inflect
      * @param int $id The unique id of the record to load (if any)
      */
 	public function __construct($id = null)
 	{
 
-        global $inflect;
-
 		$this->_model = get_class($this);
 
-		self::configure('connectionString', 'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME);
-        self::configure('username', DB_USER);
-        self::configure('password', DB_PASS);
+		Config::load('db.php');
+		$settings = Config::get('database');
 
-        $this->_tableName = DB_PREF . strtolower($inflect->pluralize($this->_model));
+		self::configure('connectionString', 'mysql:host=' . $settings['host'] . ';port=' . $settings['port'] . ';dbname=' . $settings['name']);
+        self::configure('username', $settings['user']);
+        self::configure('password', $settings['pass']);
+
+        $this->_tableName = $settings['pref'] . strtolower(Inflection::pluralize($this->_model));
 
         parent::_setupDb();
 

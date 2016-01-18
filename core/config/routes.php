@@ -7,7 +7,9 @@
 *
 */
 
-$routing = [
-    '/login(.*)/'   => 'user/login/',
-    '/logout(.*)/'  => 'user/logout/',
+return [
+    'routes' = [
+        '/login(.*)/'   => 'user/login/',
+        '/logout(.*)/'  => 'user/logout/',
+    ],
 ];

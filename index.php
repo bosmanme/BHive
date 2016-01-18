@@ -1,5 +1,21 @@
 <?php
-define('DS', DIRECTORY_SEPARATOR);
-define('ROOT', dirname(dirname(__FILE__)));
+/**
+ * Website document root
+ */
+define('DOCROOT', __DIR__ . DIRECTORY_SEPARATOR);
 
-require_once 'core' .  DS . 'bootstrap.php';
+/**
+ * Path to the application directory.
+ */
+define('APPPATH', realpath(__DIR__.'/app/') . DIRECTORY_SEPARATOR);
+
+/**
+ * The path to the framework core.
+ */
+define('COREPATH', realpath(__DIR__.'/core/') . DIRECTORY_SEPARATOR);
+
+// Activate the framework class autoloader
+require COREPATH . 'classes' . DIRECTORY_SEPARATOR . 'autoloader.php';
+
+// Boot the app
+require_once APPPATH . 'bootstrap.php';

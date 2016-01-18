@@ -34,12 +34,10 @@ abstract class Controller extends App
 
 	/**
      * Load a model in the controller
-     * @global Inflect $inflect
      * @param string $model
      */
 	protected function _loadModel($model)
 	{
-
 		$model = ucfirst(Inflection::singularize($model));
 
 		if (class_exists($model)) {

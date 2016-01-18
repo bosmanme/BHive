@@ -106,19 +106,19 @@ class Date extends DateTime
      */
     public function format($format = null, $forceServerTimezone = false)
     {
-        if ( ! $forceServerTimezone) {
+        # if ( ! $forceServerTimezone) {
             //Determin timezone
             # $user = User::isLoggedIn();
             # if ($user) {
-            #     $tz = $user->timezone ? $user->timezone : DEFAULT_TIMEZONE;
+            #     $tz = $user->timezone ? $user->timezone :  date_default_timezone_get();
             # } else {
-                $tz = DEFAULT_TIMEZONE;
+            #    $tz =  date_default_timezone_get();
             # }
 
-        } else {
-            // Force server timezone
+        # } else {
+            // Force server timezone, possibly changed via configuration (see config)
            $tz = date_default_timezone_get();
-        }
+        # }
         parent::setTimezone(new DateTimeZone($tz));
 
         $format = $format ? $format : Setting::getValue('dateFormatPhp');
@@ -572,6 +572,67 @@ class Date extends DateTime
     public function lte(Date $dt)
     {
         return $this <= $dt;
+    }
+
+    /**
+     * Returns if the Date is a holliday (as configured)
+     * @return boolean
+     */
+    public function isHolliday()
+    {
+        Config::load('hollidays.php');
+        $hollidays = Config::get('hollidays', []);
+
+        // parse the hollidays to dates based on the year of the current date
+        $year = $this->year;
+
+        $hollidays = $this->parseHollidays($hollidays);
+        foreach ($hollidays as $holliday) {
+            if ($this->eq($holliday)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Parse an array of given hollidays based on a given year
+     * @param array $hollidays array of hollidays
+     * @param int $year The year to parse with
+     * @return array|Date Array with parsed Dates
+     */
+    private function parseHollidays($hollidays, $year = null)
+    {
+        if ( ! isset($year)) {
+            $year = $this->year;
+        }
+
+        $result = [];
+        foreach ($hollidays as $name => $value) {
+            $value = str_replace(' ', '', $value);
+
+            if (strpos($value, '+') === true) { //TODO check if this works
+                $parts = explode('+', $value);
+                $baseDate = $result[$parts[0]];
+
+                $result[$name] = $baseDate->addDays($parts[1]);
+
+            }elseif (is_array($value)) { // Check for functions
+                $function = $value['function'];
+                $parameters = $value['parameters'];
+
+                foreach ($parameters as $var) {
+                    $pars[] = $this->$var;
+                }
+
+                $result[$name] = new Date(call_user_func_array($function, $parameters)); //TODO: check this!!
+            }else { // Just add the year
+                $result[$name] = new Date($value . '/' . $year);
+            }
+        }
+
+        return $results;
     }
 
     /**

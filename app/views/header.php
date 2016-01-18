@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang='<?php echo DEFAULT_LANGUAGE; ?>'>
+<html lang=''>
     <head>
-        <title><?php echo SITE_NAME; ?></title>
-        <meta charset='<?php echo CHARSET; ?>'>
+        <title>Vouchers</title>
+        <meta charset=''>
 
         <?php
         // Main javascript files

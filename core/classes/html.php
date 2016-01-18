@@ -30,7 +30,7 @@ class HTML
      */
 	public function includeJs($fileName, $cache = false)
     {
-        $data = '<script src="' . BASEPATH . FOLDER_JS . DS . $fileName . '.js';
+        $data = '<script src="assets/js/' . $fileName . '.js';
         if ( ! $cache) {
             $data .= '?' . time();
         }
@@ -48,7 +48,7 @@ class HTML
      */
 	public function includeCss($fileName, $cache = false)
     {
-        $data = '<link type="text/css" rel="stylesheet" href="' . BASEPATH . FOLDER_CSS . DS . $fileName . '.css';
+        $data = '<link type="text/css" rel="stylesheet" href="assets/css/' . $fileName . '.css';
         if ( ! $cache) {
             $data .= '?' . time();
         }
@@ -76,7 +76,7 @@ class HTML
      */
     public function url($page)
     {
-        return BASEPATH . $page;
+        return $page;
     }
 
     /**

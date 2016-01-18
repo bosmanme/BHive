@@ -52,7 +52,7 @@ class View
     {
         $html = new HTML();
 
-        if (file_exists('assets' . DS . 'js' . DS . $this->_controller . DS . $this->_action . '.js')) {
+        if (file_exists('assets/js/' . $this->_controller . DS . $this->_action . '.js')) {
             $script = $this->_controller . DS . $this->_action;
             $this->set('jsScript', $script);
         }
@@ -69,10 +69,10 @@ class View
         } else {
             // Include scripts manually
             if ($script) {
-                if (DEVELOPMENT_ENVIRONMENT) {
-                    echo '<script type="text/javascript" src="' . FOLDER_JS . DS . $script . '.js?' . time() . '"></script>';
+                if (App::$env == App::DEVELOPMENT) {
+                    echo '<script type="text/javascript" src="assets/js/' . $script . '.js?' . time() . '"></script>';
                 } else {
-                    echo '<script type="text/javascript" src="' . FOLDER_JS . DS . $script . '.js"></script>';
+                    echo '<script type="text/javascript" src="assets/js/' . $script . '.js"></script>';
                 }
             }
         }

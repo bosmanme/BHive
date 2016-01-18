@@ -73,13 +73,13 @@ class Inflection
 
     /**
      * Pluralize an English string
-     * @global array $irregularWords
      * @param string $string
      * @return string
      */
     public static function pluralize($string)
     {
-        global $irregularWords;
+        Config::load('inflection.php');
+        $irregularWords = Config::get('irregular words', []);
 
         // save some time in the case that singular and plural are the same
         if (in_array(strtolower($string), self::$uncountable)) {
@@ -116,13 +116,13 @@ class Inflection
 
     /**
      * Singularize an English string
-     * @global array $irregularWords
      * @param string $string
      * @return string
      */
     public static function singularize($string)
     {
-        global $irregularWords;
+        Config::load('inflection.php');
+        $irregularWords = Config::get('irregular words', []);
 
         // save some time in the case that singular and plural are the same
         if (in_array(strtolower($string), self::$uncountable)) {
