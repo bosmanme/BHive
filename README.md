@@ -1,6 +1,6 @@
-# Mtc
+# BHive
 
-The Mtc project will attempt to be a full replacement for the Excel processing of meal vouchers.
+The Mtc project will attempt to be a base MVC framework
 
 Created by [Mathias Bosman]. ([@mathiasbosman])
 
@@ -9,7 +9,7 @@ Created by [Mathias Bosman]. ([@mathiasbosman])
 
 ### Tech
 
-Mtc is written in PHP and uses (or will use) a number of open source projects to work properly:
+BHive is written in PHP and uses (or will use) a number of open source projects to work properly:
 * [jQuery] - duh, yet to be implemented
 * [FuelPHP] - not realy implemented, but I got some inspiration from the project.
 
