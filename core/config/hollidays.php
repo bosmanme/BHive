@@ -3,26 +3,26 @@ return [
     /*
 	 * Public hollidays
 	 *
-	 * Format: dd/mm
+	 * Format: mm/dd
 	 * Or as calculation (+)
 	 * Or as function (())
 	 */
 	 'hollidays' => [
-		 'New Year\'s Day'					=> '01/01',
-		 'Labour Day'						=> '01/05',
-		 'Day of the Flemisch Community'	=> '11/07',
-		 'Belgian National Day' 			=> '21/07',
-		 'Assumption of Mary'				=> '15/08',
-		 'All Saints\' Day'					=> '01/11',
-		 'All Souls\' Day'					=> '02/11',
-		 'Armistice Day'					=> '11/11',
-		 'King\'s Feast'					=> '15/11',
-		 'Christmas'						=> '25/12',
-		 'Second Christmas Day'				=> '26/12',
+		 'New Year\'s Day'				=> '01/01',
+		 'Labour Day'					=> '05/01',
+		 'Day of the Flemish Community'	=> '07/11',
+		 'Belgian National Day' 		=> '07/21',
+		 'Assumption of Mary'			=> '08/15',
+		 'All Saints\' Day'				=> '11/01',
+		 'All Souls\' Day'				=> '11/02',
+		 'Armistice Day'				=> '11/11',
+		 'King\'s Feast'				=> '11/15',
+		 'Christmas'					=> '12/25',
+		 'Second Christmas Day'			=> '12/26',
 
 		 // Function dates, defined as array ['function', 'parameter']
 		 'Easter' => [
-			 'function' 	=> 'easter_day',
+			 'function' 	=> 'easter_date',
 			 'parameters'	=> ['year'],
 		 ],
 

@@ -583,9 +583,6 @@ class Date extends DateTime
         Config::load('hollidays.php');
         $hollidays = Config::get('hollidays', []);
 
-        // parse the hollidays to dates based on the year of the current date
-        $year = $this->year;
-
         $hollidays = $this->parseHollidays($hollidays);
         foreach ($hollidays as $holliday) {
             if ($this->eq($holliday)) {
@@ -599,26 +596,17 @@ class Date extends DateTime
     /**
      * Parse an array of given hollidays based on a given year
      * @param array $hollidays array of hollidays
-     * @param int $year The year to parse with
      * @return array|Date Array with parsed Dates
      */
-    private function parseHollidays($hollidays, $year = null)
+    private function parseHollidays($hollidays)
     {
-        if ( ! isset($year)) {
-            $year = $this->year;
-        }
-
         $result = [];
+        
         foreach ($hollidays as $name => $value) {
             $value = str_replace(' ', '', $value);
 
-            if (strpos($value, '+') === true) { //TODO check if this works
-                $parts = explode('+', $value);
-                $baseDate = $result[$parts[0]];
+            if (is_array($value)) { // Call function
 
-                $result[$name] = $baseDate->addDays($parts[1]);
-
-            }elseif (is_array($value)) { // Check for functions
                 $function = $value['function'];
                 $parameters = $value['parameters'];
 
@@ -626,13 +614,25 @@ class Date extends DateTime
                     $pars[] = $this->$var;
                 }
 
-                $result[$name] = new Date(call_user_func_array($function, $parameters)); //TODO: check this!!
-            }else { // Just add the year
-                $result[$name] = new Date($value . '/' . $year);
+                $resultTS = call_user_func_array($function, $pars);
+                $date = date('m/d/Y', $resultTS);
+                $result[$name] = new Date($date);
+
+            } elseif (strpos($value, '+') == true) { // Calculation
+                $parts = [];
+                $parts = explode('+', $value);
+
+                $baseDate = clone $result[$parts[0]];
+                $resultDate = $baseDate->addDays($parts[1]);
+
+                $result[$name] = $resultDate;
+
+            } else { // Just add the year
+                $result[$name] = new Date($value . '/' . $this->year);
             }
         }
 
-        return $results;
+        return $result;
     }
 
     /**
