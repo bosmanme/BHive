@@ -11,7 +11,7 @@ define('DS', DIRECTORY_SEPARATOR);
 setup_autoloader();
 
 // Load shared functions
-require_once COREPATH . DS . 'shared.php';
+require_once COREPATH . 'shared.php';
 
 function setup_autoloader()
 {
