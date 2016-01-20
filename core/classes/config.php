@@ -24,7 +24,7 @@ class Config
         }
 
         $files = [];
-
+        
         // First of all check if there's a core config file
         if (is_file(COREPATH . 'config' . DS . $file)) {
             $files[] = COREPATH . 'config' . DS . $file;
@@ -36,7 +36,7 @@ class Config
 
         foreach ($files as $path) {
             if (is_file($path)) {
-                $config = $path;
+                $config = include($path);
 
                 if (is_array($config)) {
                     foreach ($config as $item => $value) {

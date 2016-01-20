@@ -1,14 +1,6 @@
 <?php
-/**
-* Routing file
-*
-* Enables specific default controllers and actions. Also used to specify custom
-* redirects using regular expressions.
-*
-*/
-
 return [
-    'routes' = [
+    'routes' => [
         '/login(.*)/'   => 'user/login/',
         '/logout(.*)/'  => 'user/logout/',
     ],
