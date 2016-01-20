@@ -14,10 +14,4 @@ App::init('config.php');
 
 // Route the requested url
 $router = new Router();
-if (isset($_GET['url'])) {
-    $url = $_GET['url'];
-} else {
-    $url = '';
-}
-
-$router->route($url);
+$router->route();

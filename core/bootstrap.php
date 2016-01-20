@@ -10,23 +10,29 @@ define('DS', DIRECTORY_SEPARATOR);
 
 setup_autoloader();
 
-// Load shared functions
-require_once COREPATH . 'shared.php';
-
 function setup_autoloader()
 {
 	Autoloader::add_classes([
+		// The app
 		'App'			=> COREPATH . 'classes/app.php',
-		'Arr'			=> COREPATH . 'classes/arr.php',
+
+		// The MVC framework
+		'Model'			=> COREPATH . 'classes/model.php',
 		'Controller'	=> COREPATH . 'classes/controller.php',
+		'View'			=> COREPATH . 'classes/view.php',
+		'ORM'			=> COREPATH . 'classes/orm.php',
+
+		// Configuration and dependencies
+		'Config'		=> COREPATH . 'classes/config.php',
+		'Inflection'	=> COREPATH . 'classes/inflection.php',
+		'Router'		=> COREPATH . 'classes/router.php',
+
+		// Helpers
+		'Arr'			=> COREPATH . 'classes/arr.php',
 		'Date'			=> COREPATH . 'classes/date.php',
 		'Debug'			=> COREPATH . 'classes/debug.php',
-		'Config'		=> COREPATH . 'classes/config.php',
+		'Cookie'		=> COREPATH . 'classes/cookie.php',
 		'HTML'			=> COREPATH . 'classes/html.php',
-		'Inflection'	=> COREPATH . 'classes/inflection.php',
-		'Model'			=> COREPATH . 'classes/model.php',
-		'ORM'			=> COREPATH . 'classes/orm.php',
-		'Router'		=> COREPATH . 'classes/router.php',
-		'View'			=> COREPATH . 'classes/view.php',
+		'Input'			=> COREPATH . 'classes/input.php',
 	]);
 }

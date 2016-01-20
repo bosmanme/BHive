@@ -15,23 +15,29 @@ class Router
 
 	public $queryString;
 
-	public function route($url)
+	public function route($url = null)
 	{
-		$this->url = $url;
-
+		if ( ! $url) {
+			$this->url = Input::server('QUERY_STRING');
+		} else {
+			$this->url = $url;
+		}
 		// Check if the current url is defined in the config routes
 		Config::load('routes.php');
 		$routing = Config::get('routes', []);
 
 		foreach ($routing as $pattern => $route) {
-			if (preg_match($pattern, $url)) {
-				$this->url = preg_replace($pattern, $route, $url);
+			if (preg_match($pattern, $this->url)) {
+				$this->url = preg_replace($pattern, $route, $this->url);
 			}
 		}
 
 		// Split the url
 		$urlArray = [];
 		$urlArray = explode('/', $this->url);
+		
+		// Strip the first slash
+		array_shift($urlArray);
 
 		// The first part is the controller name
 		$controller = isset($urlArray[0]) ? array_shift($urlArray) : null;
@@ -52,18 +58,34 @@ class Router
 			$action = 'index';
 		}
 
-		$controllerName = 'Controller_' . ucfirst($controller);
+		if ( ! static::performAction($controller, $action, $this->queryString)) {
+			static::performAction('home', 'error');
+		}
+	}
+
+	/**
+	 * Secondary call function
+	 * @param string $controller
+	 * @param string $action
+	 * @param array $queryString
+	 * @return mixed
+	 */
+	public static function performAction($controller, $action, $queryString = [])
+	{
+	    $controllerName = 'Controller_' . ucfirst($controller);
 
 		if (class_exists($controllerName)) {
-			$dispatch = new $controllerName($controller, $action);
+
+		    $dispatch = new $controllerName($controller,$action);
 
 			if ((int)method_exists($controllerName, $action)) {
-				call_user_func_array(array($dispatch, 'beforeAction'), $this->queryString);
-				call_user_func_array(array($dispatch, $action), $this->queryString);
-				call_user_func_array(array($dispatch, 'afterAction'), $this->queryString);
+				call_user_func_array(array($dispatch, 'beforeAction'), $queryString);
+				call_user_func_array(array($dispatch, $action), $queryString);
+				call_user_func_array(array($dispatch, 'afterAction'), $queryString);
 			}
+
 		} else {
-			performAction('home', 'error', [], true);
+			return false;
 		}
 	}
 
