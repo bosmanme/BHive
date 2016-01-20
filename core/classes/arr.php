@@ -64,7 +64,7 @@ class Arr
 
             while (count($keys) > 1) {
                 $key = array_shift($keys);
-                Debug::dump($keys);
+
                 if ( ! isset($aray[$key]) || ! is_array($array[$key])) {
                     $array[$key] = [];
                 }
