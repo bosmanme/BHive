@@ -25,8 +25,9 @@ class Debug
      *
      * @param mixed $variable Variable to dump
      * @param string $caption Caption of the dump
+     * @param boolean $exit wether to stop executing anyting else
      */
-    public static function dump($variable, $caption = null)
+    public static function dump($variable, $caption = null, $exit = false)
     {
         // Don't dump when in live mode
         if ( App::$env != App::DEVELOPMENT) {
@@ -66,6 +67,10 @@ class Debug
 
         // And print it all out
         print '<pre style="' . self::_getContainerCss() . '">' . $header . $output . '</pre>';
+
+        if ($exit) {
+            exit();
+        }
     }
 
     /**
