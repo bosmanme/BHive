@@ -9,19 +9,6 @@
 class HTML
 {
 
-	public static $doctypes = null;
-	public static $html5 = true;
-
-    /**
-     * Escapes a string
-     * @param string $data
-     * @return string
-     */
-	public function sanitize($data)
-    {
-        return mysql_real_escape_string($data);
-	}
-
     /**
      * Includes a js file
      * @param string $fileName
@@ -59,6 +46,7 @@ class HTML
 
     /**
      * Returns an icon span
+	 * TODO: integrate
      * @param string $iconName
      * @return string
      */
@@ -68,23 +56,4 @@ class HTML
         return $data;
     }
 
-    /**
-     * Returns the path relative to the file, or an absolute path
-     * @param string $path
-     * @param boolean $absolute
-     * @return string
-     */
-    public function url($page)
-    {
-        return $page;
-    }
-
-    /**
-     * Returns the current server request url
-     * @return string
-     */
-    public function path()
-    {
-        return $_SERVER['REQUEST_URI'];
-    }
 }
