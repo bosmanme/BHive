@@ -9,6 +9,9 @@ public/uploads/
 _dev
 _resources
 
+# Remote db settings
+app/config/db.php
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
