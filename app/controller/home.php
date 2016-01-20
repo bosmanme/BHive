@@ -19,7 +19,8 @@ class Controller_Home extends Controller
      */
     public function index()
     {
-        $this->_getView()->set('test', "test");
+        $test = "test";
+        $this->_getView()->set('test', $test);
         $this->_getView()->render();
     }
 }

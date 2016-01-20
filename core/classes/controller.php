@@ -6,9 +6,23 @@
 abstract class Controller extends App
 {
 
+	/**
+     * The controller
+     * @var Controller
+     */
 	protected $_controller;
 	protected $_action;
+
+	/**
+	 * Array of models used by this controller
+	 * @var array|Model
+	 */
 	protected $_models;
+
+	/**
+	 * The view used
+	 * @var View
+	 */
 	protected $_view;
 
 	/**
