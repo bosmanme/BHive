@@ -25,7 +25,6 @@ class Router
 		}
 
 		// Check if the current url is defined in the config routes
-		// TODO: do this in the init. of the App
 		Config::load('routes.php');
 		$routing = Config::get('routes', []);
 
