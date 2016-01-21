@@ -1,8 +1,24 @@
 <?php
 /**
- * Home controller
+ * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
+ * @package    BHive
+ * @version    1.0
+ * @author     Mathias Bosman
+ * @license    MIT License
+ * @copyright  2016 - Mathias Bosman
  */
+
+/**
+ * User controller
+ *
+ * The User controller - currently an example
+ *
+ * @package app
+ * @extends Controller
+ */
+use \Model\User;
+
 class Controller_User extends Controller
 {
     /**

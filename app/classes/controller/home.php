@@ -1,7 +1,20 @@
 <?php
 /**
+ *
+ * @package    BHive
+ * @version    1.0
+ * @author     Mathias Bosman
+ * @license    MIT License
+ * @copyright  2016 - Mathias Bosman
+ */
+
+/**
  * Home controller
  *
+ * The Home controller, controlling the index page, doesn't really do anything..
+ *
+ * @package app
+ * @extends Controller
  */
 class Controller_Home extends Controller
 {

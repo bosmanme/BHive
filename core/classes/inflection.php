@@ -1,9 +1,21 @@
 <?php
 /**
- * Routing
+ * Part of the BHive framework.
  *
- * Used in conjunction with the config/inflection.php
+ * @package    BHive
+ * @version    1.0
+ * @author     Mathias Bosman
+ * @license    MIT License
+ * @copyright  2016 - Mathias Bosman
+ */
+
+namespace BHive\Core;
+
+/**
+ * The inflection class
  *
+ * @package		BHive
+ * @subpackage	Core
  */
 class Inflection
 {

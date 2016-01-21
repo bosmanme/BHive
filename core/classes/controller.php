@@ -1,7 +1,23 @@
 <?php
+/**
+ * Part of the BHive framework.
+ *
+ * @package    BHive
+ * @version    1.0
+ * @author     Mathias Bosman
+ * @license    MIT License
+ * @copyright  2016 - Mathias Bosman
+ */
+
+namespace BHive\Core;
 
 /**
- * The core controller class
+ * The abstract Controller class
+ *
+ * @package		BHive
+ * @subpackage	Core
+ * @abstract
+ * @extends App
  */
 abstract class Controller extends App
 {
@@ -38,7 +54,7 @@ abstract class Controller extends App
 		$this->_controller = ucfirst($controller);
 		$this->_action = $action;
 
-		$this->_view = new View($controller, $action);
+		$this->_view = new View($controller, $action); //TODO: should we do this here?
 
 		// If a model with the same name exists, load it
 		if ($loadModel) {

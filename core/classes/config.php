@@ -1,5 +1,22 @@
 <?php
+/**
+ * Part of the BHive framework.
+ *
+ * @package    BHive
+ * @version    1.0
+ * @author     Mathias Bosman
+ * @license    MIT License
+ * @copyright  2016 - Mathias Bosman
+ */
 
+namespace BHive\Core;
+
+/**
+ * The Config handlers
+ *
+ * @package		BHive
+ * @subpackage	Core
+ */
 class Config
 {
     /**
@@ -24,7 +41,7 @@ class Config
         }
 
         $files = [];
-        
+
         // First of all check if there's a core config file
         if (is_file(COREPATH . 'config' . DS . $file)) {
             $files[] = COREPATH . 'config' . DS . $file;

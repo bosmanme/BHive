@@ -1,10 +1,22 @@
 <?php
 /**
- * View class
+ * Part of the BHive framework.
  *
- * Renders views
- *
+ * @package    BHive
+ * @version    1.0
+ * @author     Mathias Bosman
+ * @license    MIT License
+ * @copyright  2016 - Mathias Bosman
  */
+
+namespace BHive\Core;
+
+/**
+* View class
+*
+* @package		BHive
+* @subpackage	Core
+*/
 class View
 {
     protected $_variables = [];

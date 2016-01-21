@@ -1,8 +1,24 @@
 <?php
 /**
- * ORM class
+ * Part of the BHive framework.
  *
+ * @package    BHive
+ * @version    1.0
+ * @author     Mathias Bosman
+ * @license    MIT License
+ * @copyright  2016 - Mathias Bosman
  */
+
+namespace BHive\Core;
+
+/**
+* ORM class
+*
+* Handles all database queryies and connections
+*
+* @package		BHive
+* @subpackage	Core
+*/
 class ORM
 {
 

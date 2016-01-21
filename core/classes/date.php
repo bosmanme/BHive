@@ -1,6 +1,22 @@
 <?php
 /**
- * Date class
+ * Part of the BHive framework.
+ *
+ * @package    BHive
+ * @version    1.0
+ * @author     Mathias Bosman
+ * @license    MIT License
+ * @copyright  2016 - Mathias Bosman
+ */
+
+namespace BHive\Core;
+
+/**
+ * The abstract Controller class
+ *
+ * @package		BHive
+ * @subpackage	Core
+ * @extends DateTime
  */
 class Date extends DateTime
 {
@@ -120,8 +136,6 @@ class Date extends DateTime
            $tz = date_default_timezone_get();
         # }
         parent::setTimezone(new DateTimeZone($tz));
-
-        $format = $format ? $format : Setting::getValue('dateFormatPhp');
 
         return parent::format($format);
     }
@@ -601,7 +615,7 @@ class Date extends DateTime
     private function parseHollidays($hollidays)
     {
         $result = [];
-        
+
         foreach ($hollidays as $name => $value) {
             $value = str_replace(' ', '', $value);
 

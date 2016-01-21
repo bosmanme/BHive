@@ -1,9 +1,25 @@
 <?php
+ /**
+  * Part of the BHive framework.
+  *
+  * @package    BHive
+  * @version    1.0
+  * @author     Mathias Bosman
+  * @license    MIT License
+  * @copyright  2016 - Mathias Bosman
+  */
+
+ namespace BHive\Core;
+
 /**
  * Main model class
  *
  * Classes that extend this model and have variables witch contain data
  * should be protected or private or will be empty when called
+ *
+ * @package		BHive
+ * @subpackage	Core
+ * @extends ORM
  */
 class Model extends ORM
 {
