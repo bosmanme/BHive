@@ -23,6 +23,7 @@ class Router
 			$this->url = $url;
 		}
 		// Check if the current url is defined in the config routes
+		//TODO: move this to the App::_init?
 		Config::load('routes.php');
 		$routing = Config::get('routes', []);
 
@@ -35,7 +36,7 @@ class Router
 		// Split the url
 		$urlArray = [];
 		$urlArray = explode('/', $this->url);
-		
+
 		// Strip the first slash
 		array_shift($urlArray);
 
