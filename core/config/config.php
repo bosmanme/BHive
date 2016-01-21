@@ -1,4 +1,14 @@
 <?php
+/**
+ * Part of the BHive framework.
+ *
+ * @package    BHive
+ * @version    1.0
+ * @author     Mathias Bosman
+ * @license    MIT License
+ * @copyright  2016 - Mathias Bosman
+ */
+
 return [
     /**
 	 * base_url - The base URL of the application.
@@ -39,4 +49,9 @@ return [
 	 * Asset folders
 	 */
      'assets' => ['js', 'css', 'uploads'],
+
+     /**
+	 * Controller class prefix
+	 */
+	 'controller_prefix' => 'Controller_',
 ];

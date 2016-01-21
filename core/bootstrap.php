@@ -12,27 +12,29 @@ setup_autoloader();
 
 function setup_autoloader()
 {
-	Autoloader::add_classes([
+	Autoloader::addNamespace('BHive\\Core', COREPATH . 'classes/');
+
+	Autoloader::addClasses([
 		// The app
-		'App'			=> COREPATH . 'classes/app.php',
+		'BHive\\Core\\App'			=> COREPATH . 'classes/app.php',
 
 		// The MVC framework
-		'Model'			=> COREPATH . 'classes/model.php',
-		'Controller'	=> COREPATH . 'classes/controller.php',
-		'View'			=> COREPATH . 'classes/view.php',
-		'ORM'			=> COREPATH . 'classes/orm.php',
+		'BHive\\Core\\Model'		=> COREPATH . 'classes/model.php',
+		'BHive\\Core\\Controller'	=> COREPATH . 'classes/controller.php',
+		'BHive\\Core\\View'			=> COREPATH . 'classes/view.php',
+		'BHive\\Core\\ORM'			=> COREPATH . 'classes/orm.php',
 
 		// Configuration and dependencies
-		'Config'		=> COREPATH . 'classes/config.php',
-		'Inflection'	=> COREPATH . 'classes/inflection.php',
-		'Router'		=> COREPATH . 'classes/router.php',
+		'BHive\\Core\\Config'		=> COREPATH . 'classes/config.php',
+		'BHive\\Core\\Inflection'	=> COREPATH . 'classes/inflection.php',
+		'BHive\\Core\\Router'		=> COREPATH . 'classes/router.php',
 
 		// Helpers
-		'Arr'			=> COREPATH . 'classes/arr.php',
-		'Date'			=> COREPATH . 'classes/date.php',
-		'Debug'			=> COREPATH . 'classes/debug.php',
-		'Cookie'		=> COREPATH . 'classes/cookie.php',
-		'HTML'			=> COREPATH . 'classes/html.php',
-		'Input'			=> COREPATH . 'classes/input.php',
+		'BHive\\Core\\Arr'			=> COREPATH . 'classes/arr.php',
+		'BHive\\Core\\Date'			=> COREPATH . 'classes/date.php',
+		'BHive\\Core\\Debug'		=> COREPATH . 'classes/debug.php',
+		'BHive\\Core\\Cookie'		=> COREPATH . 'classes/cookie.php',
+		'BHive\\Core\\HTML'			=> COREPATH . 'classes/html.php',
+		'BHive\\Core\\Input'		=> COREPATH . 'classes/input.php',
 	]);
 }

@@ -10,32 +10,35 @@
 class Router
 {
 
-	public $url;
-	public $default;
+	public static $url;
 
-	public $queryString;
+	public static $queryString;
 
-	public function route($url = null)
+	public static $prefix;
+
+	public static function route($url = null)
 	{
 		if ( ! $url) {
-			$this->url = Input::server('QUERY_STRING');
+			static::$url = Input::server('QUERY_STRING');
 		} else {
-			$this->url = $url;
+			static::$url = $url;
 		}
+
 		// Check if the current url is defined in the config routes
+		// TODO: do this in the init. of the App
 		Config::load('routes.php');
 		$routing = Config::get('routes', []);
 
 		foreach ($routing as $pattern => $route) {
-			if (preg_match($pattern, $this->url)) {
-				$this->url = preg_replace($pattern, $route, $this->url);
+			if (preg_match($pattern, static::$url)) {
+				$this->url = preg_replace($pattern, $route, static::$url);
 			}
 		}
 
 		// Split the url
 		$urlArray = [];
-		$urlArray = explode('/', $this->url);
-		
+		$urlArray = explode('/', static::$url);
+
 		// Strip the first slash
 		array_shift($urlArray);
 
@@ -46,7 +49,7 @@ class Router
 		$action = isset($urlArray[0]) ? array_shift($urlArray) : null;
 
 		// The third part are extra parameters
-		$this->queryString = $urlArray;
+		static::$queryString = $urlArray;
 
 		// if the controller is empty, redirect to the default controller
 		if (empty($controller)) {
@@ -58,7 +61,7 @@ class Router
 			$action = 'index';
 		}
 
-		if ( ! static::performAction($controller, $action, $this->queryString)) {
+		if ( ! static::performAction($controller, $action, static::$queryString)) {
 			static::performAction('home', 'error');
 		}
 	}

@@ -1,5 +1,23 @@
 <?php
+/**
+ * Part of the BHive framework.
+ *
+ * @package    BHive
+ * @version    1.0
+ * @author     Mathias Bosman
+ * @license    MIT License
+ * @copyright  2016 - Mathias Bosman
+ */
 
+namespace BHive\Core;
+
+/**
+ * The Arr class provides a few nice functions for making
+ * dealing with arrays easier
+ *
+ * @package		BHive
+ * @subpackage	Core
+ */
 class Arr
 {
     /**
@@ -64,7 +82,7 @@ class Arr
 
             while (count($keys) > 1) {
                 $key = array_shift($keys);
-                Debug::dump($keys);
+
                 if ( ! isset($aray[$key]) || ! is_array($array[$key])) {
                     $array[$key] = [];
                 }

@@ -1,7 +1,21 @@
 <?php
 /**
- * Custom debug class
- * Thanks to http://codeaid.net/
+ * Part of the BHive framework.
+ *
+ * @package    BHive
+ * @version    1.0
+ * @author     Mathias Bosman
+ * @license    MIT License
+ * @copyright  2016 - Mathias Bosman
+ */
+
+namespace BHive\Core;
+
+/**
+ * This allows you to format a var_dump
+ *
+ * @package		BHive
+ * @subpackage	Core
  */
 class Debug
 {

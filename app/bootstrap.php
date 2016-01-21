@@ -2,7 +2,7 @@
 // Bootstrap the framework
 require COREPATH . 'bootstrap.php';
 
-Autoloader::add_classes([
+Autoloader::addClasses([
     // Add classes to override here
     // Example: 'View' => APPATH . 'classes/view.php',
 ]);
@@ -13,5 +13,4 @@ Autoloader::register();
 App::init('config.php');
 
 // Route the requested url
-$router = new Router();
-$router->route();
+Router::route();

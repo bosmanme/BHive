@@ -1,10 +1,24 @@
 <?php
+ /**
+  * Part of the BHive framework.
+  *
+  * @package    BHive
+  * @version    1.0
+  * @author     Mathias Bosman
+  * @license    MIT License
+  * @copyright  2016 - Mathias Bosman
+  */
+
+ namespace BHive\Core;
+
 /**
  * HTML class
  *
  * The class is used to aid the template clas. It allows the use of a few standard
  * functions for creating links, adding javascript and css.
  *
+ * @package		BHive
+ * @subpackage	Core
  */
 class HTML
 {

@@ -16,6 +16,7 @@ define('COREPATH', realpath(__DIR__.'/core/') . DIRECTORY_SEPARATOR);
 
 // Activate the framework class autoloader
 require COREPATH . 'classes' . DIRECTORY_SEPARATOR . 'autoloader.php';
+class_alias('BHive\\Core\\Autoloader', 'Autoloader');
 
 // Boot the app
 require_once APPPATH . 'bootstrap.php';

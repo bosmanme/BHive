@@ -1,10 +1,24 @@
 <?php
+ /**
+  * Part of the BHive framework.
+  *
+  * @package    BHive
+  * @version    1.0
+  * @author     Mathias Bosman
+  * @license    MIT License
+  * @copyright  2016 - Mathias Bosman
+  */
+
+ namespace BHive\Core;
+
 /**
  * Input class
  *
  * The input class allows you to access HTTP parameters, load server variables
  * and user agent details.
  *
+ * @package		BHive
+ * @subpackage	Core
  */
 class Input
 {
