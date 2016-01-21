@@ -1,6 +1,6 @@
 <div class="laout-container">
     <header class="layout-header">
-        <div class="layout-header-content"><h1>BHive framework</h1></div>
+        <div class="layout-header-content"><h5>BHive framework</h5></div>
     </header>
 </div>
 
@@ -8,7 +8,7 @@
 <section class="content">
     <nav id="breadcrumbs" class="breadcrumb">BHive > Welcome</nav>
     <!-- Some random text as placeholder -->
-    <h3>Welcome to the BHive framework</h3>
+    <h4>Welcome to the BHive framework</h4>
     <p>
         Cillum dolor esse sit incididunt velit eiusmod magna ad nostrud officia aute dolor dolor.
         Magna esse ullamco pariatur adipisicing consectetur eu commodo officia.
@@ -37,7 +37,7 @@
         Cillum sunt do consequat elit laboris nisi consectetur
     </p>
 
-    <h3>This is a nonsense header</h3>
+    <h4>This is a nonsense header</h4>
     <p>
         Cillum dolor esse sit incididunt velit eiusmod magna ad nostrud officia aute dolor dolor.
         Magna esse ullamco pariatur adipisicing consectetur eu commodo officia.
