@@ -13,6 +13,20 @@
     -ms-border-radius: $radius;
     border-radius: $radius;
 }
+
+/**
+ * Transition
+ *
+ * @include transition(background-color, cubic-bezier(.4,0,.2,1), .28s)
+ **/
+ @mixin transition($property, $function, $time) {
+     -webkit-transition-duration: $time;
+     transition-duration: $time;
+     -webkit-transition-timing-function: $function;
+     transition-timing-function: $function;
+     -webkit-transition-property: $property;
+     transition-property: $property;
+ }
 /**
  * Calculats em based on pixels
  *
