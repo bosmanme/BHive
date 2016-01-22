@@ -1,6 +1,6 @@
 # BHive
 
-The Mtc project will attempt to be a base MVC framework
+The BHive project will attempt to be a base MVC framework
 
 Created by [Mathias Bosman]. ([@mathiasbosman])
 
