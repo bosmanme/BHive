@@ -19,27 +19,35 @@ namespace BHive\Core;
  */
 class Asset
 {
+
+    /**
+	 * All the Asset instances
+	 *
+	 * @var  array
+	 */
+    protected static $_instances = [];
+
     /**
 	 * Default configuration values
 	 *
 	 * @var  array
 	 */
-	protected static $default_config = array(
-		'paths' => array('assets/'),
+	protected static $_config = array(
+		'paths'   => ['assets/'],
 		'img_dir' => 'img/',
-		'js_dir' => 'js/',
+		'js_dir'  => 'js/',
 		'css_dir' => 'css/',
 		'folders' => [
 			'css' => [],
 			'js'  => [],
 			'img' => [],
 		],
-		'url' => '/',
-		'add_mtime' => true,
-		'indent_level' => 1,
-		'indent_with' => "\t",
-		'auto_render' => true,
-		'fail_silently' => false,
+		'url'             => '/',
+		'add_mtime'       => true,
+		'indent_level'    => 1,
+		'indent_with'     => "\t",
+		'auto_render'     => true,
+		'fail_silently'   => false,
 	);
 
     /**
@@ -49,8 +57,18 @@ class Asset
 	 */
 	public static function _init()
 	{
-		\Config::load('asset', true, false, true);
+        // Setup configuration
+		Config::load('asset', true);
+
 	}
 
-    //TODO Keep it simple? Or create asset instances
+    protected static function _load($type, $file)
+    {
+
+    }
+
+    public static function css($file)
+    {
+        $file = $file . '.css';
+    }
 }
