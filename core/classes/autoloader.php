@@ -24,12 +24,12 @@ class Autoloader
     /**
 	 * @var  array  $classes  holds all the classes and paths
 	 */
-	protected static $classes = [];
+	protected static $_classes = [];
 
 	/**
 	 * @var array saves all namespaces
 	 */
-	protected static $namespaces = [];
+	protected static $_namespaces = [];
 
 	/**
 	 * Holds all the PSR-0 compliant namespaces.  These namespaces should
@@ -37,19 +37,19 @@ class Autoloader
 	 *
 	 * @var  array
 	 */
-	protected static $psrNamespaces = array();
+	protected static $_psrNamespaces = array();
 
 	/**
 	 * @var  array  list off namespaces of which classes will be aliased to global namespace
 	 */
-	protected static $coreNamespaces = array(
+	protected static $_coreNamespaces = array(
 		'BHive\\Core',
 	);
 
 	/**
 	 * @var  bool  whether to initialize a loaded class
 	 */
-	protected static $autoInitialize = null;
+	protected static $_autoInitialize = null;
 
 	/**
 	 * Adds a namespace search path.  Any class in the given namespace will be
@@ -62,9 +62,9 @@ class Autoloader
 	 */
 	public static function addNamespace($namespace, $path, $psr = false)
 	{
-		static::$namespaces[$namespace] = $path;
+		static::$_namespaces[$namespace] = $path;
 		if ($psr) {
-			static::$psrNamespaces[$namespace] = $path;
+			static::$_psrNamespaces[$namespace] = $path;
 		}
 	}
 
@@ -78,10 +78,10 @@ class Autoloader
 	public static function addNamespaces(array $namespaces, $prepend = false)
 	{
 		if ( ! $prepend) {
-			static::$namespaces = array_merge(static::$namespaces, $namespaces);
+			static::$_namespaces = array_merge(static::$_namespaces, $namespaces);
 		}
 		else {
-			static::$namespaces = $namespaces + static::$namespaces;
+			static::$_namespaces = $namespaces + static::$_namespaces;
 		}
 	}
 
@@ -93,12 +93,12 @@ class Autoloader
 	 */
 	public static function namespacePath($namespace)
 	{
-		if ( ! array_key_exists($namespace, static::$namespaces))
+		if ( ! array_key_exists($namespace, static::$_namespaces))
 		{
 			return false;
 		}
 
-		return static::$namespaces[$namespace];
+		return static::$_namespaces[$namespace];
 	}
 
 	/**
@@ -111,7 +111,7 @@ class Autoloader
 	 */
 	public static function addClass($class, $path)
 	{
-		static::$classes[strtolower($class)] = $path;
+		static::$_classes[strtolower($class)] = $path;
 	}
 
 	/**
@@ -123,7 +123,7 @@ class Autoloader
 	public static function addClasses($classes)
 	{
 		foreach ($classes as $class => $path) {
-			static::$classes[strtolower($class)] = $path;
+			static::$_classes[strtolower($class)] = $path;
 		}
 	}
 
@@ -153,12 +153,12 @@ class Autoloader
 	 * @param   string       $class
 	 * @return  bool|string
 	 */
-	protected static function findCoreClass($class)
+	protected static function _findCoreClass($class)
 	{
-		foreach (static::$coreNamespaces as $ns) {
+		foreach (static::$_coreNamespaces as $ns) {
 			if (array_key_exists(
 					strtolower($nsClass = $ns.'\\'.$class),
-					static::$classes)
+					static::$_classes)
 			) {
 				return $nsClass;
 			}
@@ -179,10 +179,10 @@ class Autoloader
 	public static function addCoreNamespace($namespace, $prefix = true)
 	{
 		if ($prefix) {
-			array_unshift(static::$coreNamespaces, $namespace);
+			array_unshift(static::$_coreNamespaces, $namespace);
 		}
 		else {
-			static::$coreNamespaces[] = $namespace;
+			static::$_coreNamespaces[] = $namespace;
 		}
 	}
 
@@ -206,35 +206,40 @@ class Autoloader
         $class = ltrim($class, '\\');
 		$pos = strripos($class, '\\');
 
+		//Iinitialize the class
+		if (empty(static::$_autoInitialize)) {
+			static::$_autoInitialize = $class;
+		}
+
 		// Check if the class is already present
-		if (isset(static::$classes[strtolower($class)])) {
-			static::initClass($class, str_replace('/', DS, static::$classes[strtolower($class)]));
+		if (isset(static::$_classes[strtolower($class)])) {
+			static::_initClass($class, str_replace('/', DS, static::$_classes[strtolower($class)]));
 			$loaded = true;
-		} elseif ($fullClass = static::findCoreClass($class)) {
+		} elseif ($fullClass = static::_findCoreClass($class)) {
 			if ( ! class_exists($fullClass, false)) {
-				include static::prepPath(static::$classes[strtolower($fullClass)]);
+				include static::_prepPath(static::$_classes[strtolower($fullClass)]);
 			}
 
 			if ( ! class_exists($class, false)) {
 				class_alias($fullClass, $class);
 			}
 
-			static::initClass($class);
+			static::_initClass($class);
 			$loaded = true;
 		} else {
 			$fullNs = substr($class, 0, $pos);
 
 			if ($fullNs) {
-				foreach (static::$namespaces as $ns => $path) {
+				foreach (static::$_namespaces as $ns => $path) {
 					$ns = ltrim($ns, '\\');
 					if (stripos($fullNs, $ns) === 0) {
-						$path .= static::classToPath(
+						$path .= static::_classToPath(
 							substr($class, strlen($ns) + 1),
-							array_key_exists($ns, static::$psrNamespaces)
+							array_key_exists($ns, static::$_psrNamespaces)
 						);
 
 						if (is_file($path)) {
-							static::initClass($class, $path);
+							static::_initClass($class, $path);
 							$loaded = true;
 							break;
 						}
@@ -245,9 +250,9 @@ class Autoloader
 
 
 		if ( ! $loaded) {
-			$path = APPPATH . 'classes' . DS . static::classToPath($class);
+			$path = APPPATH . 'classes' . DS . static::_classToPath($class);
 			if (is_file($path)) {
-				static::initClass($class, $path);
+				static::_initClass($class, $path);
 				$loaded = true;
 				static::addClass($class, $path);
 			}
@@ -261,7 +266,7 @@ class Autoloader
 	 * @param   string  $path  Path to prepare
 	 * @return  string  Prepped path
 	 */
-	protected static function prepPath($path)
+	protected static function _prepPath($path)
 	{
 		return str_replace(array('/', '\\'), DS, $path);
 	}
@@ -273,7 +278,7 @@ class Autoloader
 	 * @param   bool    $psr    Whether this is a PSR-0 compliant class
 	 * @return  string  Path for the class
 	 */
-	protected static function classToPath($class, $psr = false)
+	protected static function _classToPath($class, $psr = false)
 	{
 		$file  = '';
 
@@ -299,7 +304,7 @@ class Autoloader
 	 * @param string $class the class name
 	 * @param string $file  the file containing the class to include
 	 */
-	protected static function initClass($class, $file = null)
+	protected static function _initClass($class, $file = null)
 	{
 
 		// include the file if needed
@@ -312,9 +317,9 @@ class Autoloader
 		if (class_exists($class, false))
 		{
 			// call the classes static init if needed
-			if (static::$autoInitialize === $class)
+			if (static::$_autoInitialize === $class)
 			{
-				static::$autoInitialize = null;
+				static::$_autoInitialize = null;
 				if (method_exists($class, '_init') and is_callable($class.'::_init'))
 				{
 					call_user_func($class.'::_init');

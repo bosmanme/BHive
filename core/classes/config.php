@@ -27,7 +27,7 @@ class Config
     /**
 	 * @var    array    $items           the master config array
 	 */
-	protected static $items = array();
+	protected static $_items = array();
 
     /**
      * Load a config file into the settings
@@ -36,6 +36,12 @@ class Config
      */
     public static function load($file, $overwrite = false)
     {
+        // Check if the .php extension was added
+        $info = pathinfo($file);
+        if ( ! array_key_exists('extension', $info)) {
+            $file .= '.php';
+        }
+
         if ( ! $overwrite && array_key_exists($file, self::$loadedFiles)) {
             return;
         }
@@ -74,8 +80,8 @@ class Config
      */
     public static function set($item, $value, $overwrite = true)
     {
-        if ($overwrite || ! array_key_exists($item, static::$items)) {
-            self::$items[$item] = $value;
+        if ($overwrite || ! array_key_exists($item, static::$_items)) {
+            self::$_items[$item] = $value;
         }
     }
 
@@ -87,10 +93,10 @@ class Config
      */
     public static function get($item, $default = null)
     {
-        if ( ! isset(static::$items[$item])) {
+        if ( ! isset(static::$_items[$item])) {
             return $default;
         } else {
-            return self::$items[$item];
+            return self::$_items[$item];
         }
     }
 }

@@ -22,7 +22,7 @@ class Cookie
     /**
 	 * @var  array  Cookie class configuration defaults
 	 */
-	protected static $config = [
+	protected static $_config = [
 		'expiration'            => 0,
 		'path'                  => '/',
 		'domain'                => null,
@@ -35,7 +35,7 @@ class Cookie
 	 */
 	public static function _init()
 	{
-		static::$config = array_merge(static::$config, Config::get('cookie', []));
+		static::$_config = array_merge(static::$_config, Config::get('cookie', []));
 	}
 
     /**
@@ -74,11 +74,11 @@ class Cookie
     public static function set($name, $value, $expiration = null, $path = null, $domain = null, $secure = null, $http_only = null)
     {
         // use the class defaults for the other parameters if not provided
-		is_null($expiration) and $expiration = static::$config['expiration'];
-		is_null($path) and $path = static::$config['path'];
-		is_null($domain) and $domain = static::$config['domain'];
-		is_null($secure) and $secure = static::$config['secure'];
-		is_null($http_only) and $http_only = static::$config['http_only'];
+		is_null($expiration) and $expiration = static::$_config['expiration'];
+		is_null($path) and $path = static::$_config['path'];
+		is_null($domain) and $domain = static::$_config['domain'];
+		is_null($secure) and $secure = static::$_config['secure'];
+		is_null($http_only) and $http_only = static::$_config['http_only'];
 
 		// add the current time so we have an offset
 		$expiration = $expiration > 0 ? $expiration + time() : 0;

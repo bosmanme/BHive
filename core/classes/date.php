@@ -597,7 +597,7 @@ class Date extends DateTime
         Config::load('hollidays.php');
         $hollidays = Config::get('hollidays', []);
 
-        $hollidays = $this->parseHollidays($hollidays);
+        $hollidays = $this->_parseHollidays($hollidays);
         foreach ($hollidays as $holliday) {
             if ($this->eq($holliday)) {
                 return true;
@@ -612,7 +612,7 @@ class Date extends DateTime
      * @param array $hollidays array of hollidays
      * @return array|Date Array with parsed Dates
      */
-    private function parseHollidays($hollidays)
+    private function _parseHollidays($hollidays)
     {
         $result = [];
 
