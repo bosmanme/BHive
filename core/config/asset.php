@@ -85,33 +85,4 @@ return array(
 	 */
 	'add_mtime' => true,
 
-	/**
-	 * The amount of indents to prefix to the generated asset tag(s).
-	 */
-	'indent_level' => 1,
-
-	/**
-	* What to use for indenting.
-	*/
-	'indent_with' => "\t",
-
-	/**
-	 * What to do when an asset method is called without a group name. If true, it will
-	 * return the generated asset tag. If false, it will add it to the default group.
-	 */
-	'auto_render' => true,
-
-	/**
-	 * Set to true to prevent an exception from being throw when a file is not found.
-	 * The asset will then be skipped.
-	 */
-	'fail_silently' => false,
-
-	/**
-	 * When set to true, the Asset class will always true to resolve an asset URI
-	 * to a local asset, even if the asset URL is an absolute URL, for example
-	 * one that points to another hostname.
-	 */
-	'always_resolve' => false,
-
 );

@@ -48,12 +48,8 @@ class Asset
 			'js'  => [],
 			'img' => [],
 		],
-		'url'             => '/',
-		'add_mtime'       => true,
-		'indent_level'    => 1,
-		'indent_with'     => "\t",
-		'auto_render'     => true,
-		'fail_silently'   => false,
+		'add_mtime' => true,
+        'url'       => '',
 	];
 
     /**
@@ -65,7 +61,13 @@ class Asset
 	{
         // Setup configuration
 		Config::load('asset', true);
-
+        static::$_config['paths'] = Config::get('paths', static::$_config['paths']);
+        static::$_config['img_dir'] = Config::get('img_dir', static::$_config['img_dir']);
+        static::$_config['js_dir'] = Config::get('js_dir', static::$_config['js_dir']);
+        static::$_config['css_dir'] = Config::get('css_dir', static::$_config['css_dir']);
+        static::$_config['folders'] = Config::get('folders', static::$_config['folders']);
+        static::$_config['add_mtime'] = Config::get('add_mtime', static::$_config['add_mtime']);
+        static::$_config['url'] = Config::get('url', static::$_config['url']);
 	}
 
     /**
@@ -79,7 +81,7 @@ class Asset
     {
         // Did we load this instance alreaydy?
         if ($path = static::_isLoaded($file, $type)) {
-            return $path;
+            return $path.(static::$_config['add_mtime'] ? '?'.filemtime($path) : '');
         }
 
         $searchFolders = [];
@@ -103,13 +105,13 @@ class Asset
 
                 // Loop over the type folders
                 foreach ($searchFolders as $folder) {
-                    $fullPath = $assetPath . $folder . $file;
+                    $fullPath = static::$_config['url'] . $assetPath . $folder . $file;
                     if (is_file($fullPath)) {
 
                         // Save the instance
                         static::$_instances[$type][$file] = $fullPath;
 
-                        return $fullPath;
+                        return $fullPath.(static::$_config['add_mtime'] ? '?'.filemtime($fullPath) : '');
                     }
                 }
             }

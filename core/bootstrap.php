@@ -36,7 +36,6 @@ function setup_autoloader()
 		'BHive\\Core\\Date'			=> COREPATH . 'classes/date.php',
 		'BHive\\Core\\Debug'		=> COREPATH . 'classes/debug.php',
 		'BHive\\Core\\File'			=> COREPATH . 'classes/file.php',
-		'BHive\\Core\\HTML'			=> COREPATH . 'classes/html.php',
 		'BHive\\Core\\Input'		=> COREPATH . 'classes/input.php',
 	]);
 }

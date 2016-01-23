@@ -45,11 +45,6 @@ return [
 	'server_gmt_offset'  => 0,
 	'default_timezone'   => null,
 
-    /**
-	 * Asset folders
-	 */
-     'assets' => ['js', 'css', 'uploads'],
-
      /**
 	 * Controller class prefix
 	 */

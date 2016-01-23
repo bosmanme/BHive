@@ -62,14 +62,6 @@ class View
      */
     public function render($doNotRenderHeader = false)
     {
-        $html = new HTML();
-
-        if (file_exists('assets/js/' . $this->_controller . DS . $this->_action . '.js')) {
-            $script = $this->_controller . DS . $this->_action;
-            $this->set('jsScript', $script);
-        }
-
-
         extract($this->_variables);
 
         if ($doNotRenderHeader == false) {
@@ -79,18 +71,14 @@ class View
                     include APPPATH . 'views' . DS . 'header.php';
             }
         } else {
-            // Include scripts manually
+            // Include script if available
+            $script = Asset::js($this->_controller . DS . $this->_action);
             if ($script) {
-                if (App::$env == App::DEVELOPMENT) {
-                    echo '<script type="text/javascript" src="assets/js/' . $script . '.js?' . time() . '"></script>';
-                } else {
-                    echo '<script type="text/javascript" src="assets/js/' . $script . '.js"></script>';
-                }
+                echo '<script type="text/javascript" src="' . $script . '"></script>';
             }
         }
 
         if (file_exists(APPPATH . 'views' . DS . $this->_controller . DS . $this->_action . '.php')) {
-
             include APPPATH . 'views' . DS . $this->_controller . DS . $this->_action . '.php';
         }
 
