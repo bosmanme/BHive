@@ -37,8 +37,9 @@ class Config
     public static function load($file, $overwrite = false)
     {
         // Check if the .php extension was added
-        $info = pathinfo($file);
-        if ( ! array_key_exists('extension', $info)) {
+        $extension = File::extension($file);
+        
+        if ( ! $extension) {
             $file .= '.php';
         }
 
