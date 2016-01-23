@@ -73,10 +73,15 @@ class Asset
      *
      * @param   string  $type   The type of the file (css, img, js,...)
      * @param   string  $file   The name of the file
-     * @return  string
+     * @return  string|null
      */
     protected static function _getPath($file, $type)
     {
+        // Did we load this instance alreaydy?
+        if ($path = static::_isLoaded($file, $type)) {
+            return $path;
+        }
+
         $searchFolders = [];
 
         // Top level config set?
@@ -93,12 +98,87 @@ class Asset
         }
 
         if ( ! empty($searchFolders)) {
-            //TODO finish
+            // loop over all asset folders in the config
+            foreach (static::$_config['paths'] as $assetPath) {
+
+                // Loop over the type folders
+                foreach ($searchFolders as $folder) {
+                    $fullPath = $assetPath . $folder . $file;
+                    if (is_file($fullPath)) {
+
+                        // Save the instance
+                        static::$_instances[$type][$file] = $fullPath;
+
+                        return $fullPath;
+                    }
+                }
+            }
         }
+
+        return null;
     }
 
+    /**
+     * Checks if this file is already loaded in our instances
+     * @param   string  $type   The type of the file (css, img, js,...)
+     * @param   string  $file   The name of the file
+     * @return  string|boolean
+     */
+    protected static function _isLoaded($file, $type)
+    {
+        if (array_key_exists($type, static::$_instances)) {
+            if (array_key_exists($file, static::$_instances[$type])) {
+                return static::$_instances[$type][$file];
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the path for the given Javascript file
+     * @param   $file   The file name
+     * @return  string  The path
+     */
+    public static function js($file)
+    {
+        // Check extension
+        if ( ! File::hasExtension($file, 'js')) {
+            $file .= '.js';
+        }
+
+        return static::_getPath($file, 'js');
+    }
+
+    /**
+     * Returns the path for the given CSS file
+     * @param   $file   The file name
+     * @return  string  The path
+     */
     public static function css($file)
     {
-        $file = $file . '.css';
+        // Check extension
+        if ( ! File::hasExtension($file, 'css')) {
+            $file .= '.css';
+        }
+
+        return static::_getPath($file, 'css');
+    }
+
+    /**
+     * Returns the path for the given image file
+     * Compared to the other methods this will retrn null if the image has no extension!
+     *
+     * @param   $file   The file name
+     * @return  string|null  The path or null if the image has no extension
+     */
+    public static function img($file)
+    {
+        // Check extension
+        if ( ! File::hasExtension($file, ['png', 'gif', 'jpg', 'jpeg'])) {
+            return null;
+        }
+
+        return static::_getPath($file, 'css');
     }
 }
