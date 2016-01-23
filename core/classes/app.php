@@ -40,7 +40,7 @@ class App
 	const STAGING = 'staging';
 
 	/**
-	 * @var  bool  Whether the framework has been initialized
+	 * @var  boolean  Whether the framework has been initialized
 	 */
 	public static $initialized = false;
 

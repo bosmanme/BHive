@@ -47,7 +47,7 @@ class Autoloader
 	);
 
 	/**
-	 * @var  bool  whether to initialize a loaded class
+	 * @var  boolean  whether to initialize a loaded class
 	 */
 	protected static $_autoInitialize = null;
 
@@ -57,7 +57,7 @@ class Autoloader
 	 *
 	 * @param   string  $namespace  the namespace
 	 * @param   string  $path       the path
-	 * @param   bool    $psr        whether this is a PSR-0 compliant class
+	 * @param   boolean    $psr        whether this is a PSR-0 compliant class
 	 * @return  void
 	 */
 	public static function addNamespace($namespace, $path, $psr = false)
@@ -72,7 +72,7 @@ class Autoloader
 	 * Adds an array of namespace paths. See {@see Autoloader::addNamespace}.
 	 *
 	 * @param   array  $namespaces  the namespaces
-	 * @param   bool   $prepend     whether to prepend the namespace to the search path
+	 * @param   boolean   $prepend     whether to prepend the namespace to the search path
 	 * @return  void
 	 */
 	public static function addNamespaces(array $namespaces, $prepend = false)
@@ -89,7 +89,7 @@ class Autoloader
 	 * Returns the namespace's path or false when it doesn't exist.
 	 *
 	 * @param   string      the namespace to get the path for
-	 * @return  array|bool  the namespace path or false
+	 * @return  array|boolean  the namespace path or false
 	 */
 	public static function namespacePath($namespace)
 	{
@@ -151,7 +151,7 @@ class Autoloader
 	 * Returns the class with namespace prefix when available
 	 *
 	 * @param   string       $class
-	 * @return  bool|string
+	 * @return  boolean|string
 	 */
 	protected static function _findCoreClass($class)
 	{
@@ -173,7 +173,7 @@ class Autoloader
 	 * Prefixing the classes will overwrite core classes and previously added namespaces.
 	 *
 	 * @param  string $namespace
-	 * @param  bool   $prefix
+	 * @param  boolean   $prefix
 	 * @return void
 	 */
 	public static function addCoreNamespace($namespace, $prefix = true)
@@ -190,7 +190,7 @@ class Autoloader
 	 * Loads a class.
 	 *
 	 * @param   string  $class  Class to load
-	 * @return  bool    If it loaded the class
+	 * @return  boolean    If it loaded the class
 	 */
     public static function load($class)
     {
@@ -275,7 +275,7 @@ class Autoloader
 	 * Takes a class name and turns it into a path. By replacing _ with a DS
 	 *
 	 * @param   string  $class  Class name
-	 * @param   bool    $psr    Whether this is a PSR-0 compliant class
+	 * @param   boolean    $psr    Whether this is a PSR-0 compliant class
 	 * @return  string  Path for the class
 	 */
 	protected static function _classToPath($class, $psr = false)
