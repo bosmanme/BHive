@@ -32,6 +32,31 @@ class File
     }
 
     /**
+     * Returns if the path has one of given extensions
+     *
+     * @see File::extension()
+     * @param   string  $path   The path of the file
+     * @param   string|array    The extension(s) to check
+     * @return  string|boolean
+     */
+    public static function hasExtension($path, $exts)
+    {
+        $extension = static::extension($path);
+
+        if (is_string($extension) && $extension == $exts) {
+            return true;
+        }
+
+        if (is_array($exts)) {
+            if (in_array($extension, $exts)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Try to get a certain element of the native pathinfo() function
      *
      * @param   string  $file   The file to check
@@ -44,7 +69,7 @@ class File
             if ( array_key_exists($info, $pathInfo)) {
                 return $pathInfo['extension'];
             }
-            
+
         return false;
     }
 }
