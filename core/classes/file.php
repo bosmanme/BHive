@@ -40,13 +40,11 @@ class File
      */
     protected static function _getPathInfo($file, $info)
     {
-        if (is_file($file)) {
             $pathInfo = pathinfo($file);
             if ( array_key_exists($info, $pathInfo)) {
                 return $pathInfo['extension'];
             }
-        }
-
+            
         return false;
     }
 }
