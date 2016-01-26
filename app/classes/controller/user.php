@@ -17,7 +17,7 @@
  * @package app
  * @extends Controller
  */
-use \Model\User;
+use \Model\User as User;
 
 class Controller_User extends Controller
 {

@@ -32,8 +32,8 @@ class ORM
     protected static $_config = [
         'connection' 		=> 'sqlite::memory:',
         'idColumn' 			=> 'id',
-        'idColumnOverrides' => array(),
-        'errorMode' 		=> PDO::ERRMODE_EXCEPTION,
+        'idColumnOverrides' => [],
+        'errorMode' 		=> \PDO::ERRMODE_EXCEPTION,
         'username' 			=> null,
         'password' 			=> null,
         'driverOptions' 	=> null,
@@ -43,7 +43,7 @@ class ORM
     ];
     /**
      * Database connection
-     * @var PDO
+     * @var \PDO
      */
     protected static $_db;
     /**
@@ -217,19 +217,19 @@ class ORM
     {
 
         if ( ! is_object(self::$_db)) {
-            // Create the PDO connection
+            // Create the \PDO connection
             $connectionString = self::$_config['connectionString'];
             $username = self::$_config['username'];
             $password = self::$_config['password'];
             $driverOptions = self::$_config['driverOptions'];
-            $db = new PDO($connectionString, $username, $password, $driverOptions);
-            $db->setAttribute(PDO::ATTR_ERRMODE, self::$_config['errorMode']);
+            $db = new \PDO($connectionString, $username, $password, $driverOptions);
+            $db->setAttribute(\PDO::ATTR_ERRMODE, self::$_config['errorMode']);
             self::setDb($db);
         }
     }
     /**
-     * Set the PDO object
-     * @param PDO $db
+     * Set the \PDO object
+     * @param \PDO $db
      */
     public static function setDb($db)
     {
@@ -252,7 +252,7 @@ class ORM
      */
     protected static function _detectIdentifierQuoteChar()
     {
-        switch (self::$_db->getAttribute(PDO::ATTR_DRIVER_NAME)) {
+        switch (self::$_db->getAttribute(\PDO::ATTR_DRIVER_NAME)) {
             case 'psql':
             case 'sqlsrv':
             case 'dblib':
@@ -267,8 +267,8 @@ class ORM
         }
     }
     /**
-     * Returns the PDO object used by the ORM
-     * @return PDO
+     * Returns the \PDO object used by the ORM
+     * @return \PDO
      */
     public static function getDb()
     {
@@ -1391,7 +1391,7 @@ class ORM
         $statement = self::$_db->prepare($query);
         $statement->execute($this->_values);
         $rows = [];
-        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
             $rows[] = $row;
         }
         if ($caching_enabled) {
