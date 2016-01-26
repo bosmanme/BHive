@@ -31,7 +31,7 @@ class Router
 
 		foreach ($routing as $pattern => $route) {
 			if (preg_match($pattern, static::$url)) {
-				$this->url = preg_replace($pattern, $route, static::$url);
+				static::$url = preg_replace($pattern, $route, static::$url);
 			}
 		}
 

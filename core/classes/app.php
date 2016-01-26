@@ -60,7 +60,6 @@ class App
 	/**
 	 * Initializes the framework.  This can only be called once.
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public static function init($config)
@@ -80,6 +79,20 @@ class App
 		static::$timezone = Config::get('default_timezone') ?: date_default_timezone_get();
 		date_default_timezone_set(static::$timezone);
 
+		static::_setRepporting();
+
+	}
+
+	/**
+     * Sets the error reporting level based on the environment
+	 * @return void
+     */
+	protected static function _setRepporting()
+	{
+		if (self::$env == App::DEVELOPMENT) {
+			error_reporting(E_ALL);
+			ini_set("display_errors", 1);
+		}
 	}
 
     /**
@@ -90,17 +103,6 @@ class App
 		$this->_setRepporting();
 		$this->_removeMagicQuotes();
 		$this->_unregisterGlobals();
-	}
-
-    /**
-     * Sets the error reporting level based on the environment
-     */
-	private function _setRepporting()
-	{
-		if (self::$env == App::DEVELOPMENT) {
-			error_reporting(E_ALL);
-			ini_set("display_errors", 1);
-		}
 	}
 
 	/**
