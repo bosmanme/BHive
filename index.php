@@ -14,6 +14,11 @@ define('APPPATH', realpath(__DIR__.'/app/') . DIRECTORY_SEPARATOR);
  */
 define('COREPATH', realpath(__DIR__.'/core/') . DIRECTORY_SEPARATOR);
 
+/**
+ * The package path
+ */
+define('PKGPATH', realpath(__DIR__.'/packages/') . DIRECTORY_SEPARATOR);
+
 // Activate the framework class autoloader
 require COREPATH . 'classes' . DIRECTORY_SEPARATOR . 'autoloader.php';
 class_alias('BHive\\Core\\Autoloader', 'Autoloader');

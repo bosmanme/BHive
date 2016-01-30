@@ -155,4 +155,15 @@ class App
 		}
 	}
 
+	/**
+	 * Includes the given file and returns the results.
+	 *
+	 * @param   string  the path to the file
+	 * @return  mixed   the results of the include
+	 */
+	public static function load($file)
+	{
+		return include $file;
+	}
+
 }
