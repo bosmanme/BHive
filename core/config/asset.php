@@ -1,13 +1,12 @@
 <?php
 /**
- * Part of the Fuel framework.
+ * Part of the BHive framework.
  *
- * @package    Fuel
- * @version    1.7
- * @author     Fuel Development Team
+ * @package    BHive
+ * @version    1.0
+ * @author     Mathias Bosman
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
- * @link       http://fuelphp.com
+ * @copyright  2016 - Mathias Bosman
  */
 
 /**
