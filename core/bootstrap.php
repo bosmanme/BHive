@@ -33,6 +33,7 @@ function setup_autoloader()
 		'BHive\\Core\\Arr'			=> COREPATH . 'classes/arr.php',
 		'BHive\\Core\\Asset'		=> COREPATH . 'classes/asset.php',
 		'BHive\\Core\\Cookie'		=> COREPATH . 'classes/cookie.php',
+		'BHive\\Core\\Crypt'		=> COREPATH . 'classes/crypt.php',
 		'BHive\\Core\\Date'			=> COREPATH . 'classes/date.php',
 		'BHive\\Core\\Debug'		=> COREPATH . 'classes/debug.php',
 		'BHive\\Core\\File'			=> COREPATH . 'classes/file.php',
