@@ -5,4 +5,4 @@
         <meta charset=''>
     </head>
 
-    <body>
+    <body class="<?= $this->getBodyClassString(); ?>">

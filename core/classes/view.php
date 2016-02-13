@@ -20,6 +20,7 @@ namespace BHive\Core;
 class View
 {
     protected $_variables = [];
+    protected $_bodyClasses = [];
     protected $_controller;
     protected $_action;
 
@@ -64,6 +65,30 @@ class View
             $title = App::$name;
         }
         $this->_variables['PAGE_TITLE'] = $title;
+    }
+
+    /**
+     * Adds a body class
+     * @param string|array $class The class or classes to add
+     */
+    public function addBodyClass($class)
+    {
+        if (is_array($class)) {
+            $this->_bodyClasses = array_merge($this->_bodyClasses, $class);
+        } else {
+            $this->_bodyClasses[] = $class;
+        }
+    }
+
+    /**
+     * Returns the body classes if any are set
+     * @return string The body class(es)
+     */
+    public function getBodyClassString()
+    {
+        if ( ! empty($this->_bodyClasses)) {
+            return implode(' ', $this->_bodyClasses);
+        }
     }
 
     /**
