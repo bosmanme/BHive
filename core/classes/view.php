@@ -55,16 +55,33 @@ class View
     }
 
     /**
+     * Set the view's title, if none is given the app's name is used
+     * @param  string $title The title
+     */
+    public function title($title = null)
+    {
+        if ( ! isset($title)) {
+            $title = App::$name;
+        }
+        $this->_variables['PAGE_TITLE'] = $title;
+    }
+
+    /**
      * Display the template if a controller specific footer or header is not found
      * the global header & footer in the view folder will be used
      * @param boolean $doNotRenderHeader enables not outputting headers for a particular action
      *                                   This can be used in AJAX calls.
      */
-    public function render($doNotRenderHeader = false)
+    public function render($renderHeader = true)
     {
+        // If page title is not yet set; do so
+        if ($renderHeader && ! array_key_exists('PAGE_TITLE', $this->_variables)) {
+            $this->title();
+        }
+
         extract($this->_variables);
 
-        if ($doNotRenderHeader == false) {
+        if ($renderHeader) {
             if (file_exists(APPPATH . 'views' . DS . $this->_controller . DS . 'header.php')) {
                     include APPPATH . 'views' . DS . $this->_controller . DS . 'header.php';
             } else {
@@ -82,7 +99,7 @@ class View
             include APPPATH . 'views' . DS . $this->_controller . DS . $this->_action . '.php';
         }
 
-        if ($doNotRenderHeader == false) {
+        if ($renderHeader) {
             if (file_exists(APPPATH . 'views' . DS . $this->_controller . DS . 'footer.php')) {
                     include APPPATH . 'views' . DS . $this->_controller . DS . 'footer.php';
             } else {

@@ -57,6 +57,8 @@ class App
 
 	public static $encoding = 'UTF-8';
 
+	public static $name = '';
+
 	/**
 	 * Initializes the framework.  This can only be called once.
 	 *
@@ -71,11 +73,9 @@ class App
 		Config::load($config);
 
 		static::$_paths = [APPPATH, COREPATH];
-
+		static::$name = Config::get('app_name', '');
 		static::$locale = Config::get('locale', static::$locale);
-
 		static::$encoding = Config::get('encoding', static::$encoding);
-
 		static::$timezone = Config::get('default_timezone') ?: date_default_timezone_get();
 		date_default_timezone_set(static::$timezone);
 

@@ -10,6 +10,11 @@
  */
 
 return [
+	/**
+	 * The app's name
+	 */
+	'app_name' => 'BHive',
+	
     /**
 	 * base_url - The base URL of the application.
 	 * MUST contain a trailing slash (/)

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang=''>
     <head>
-        <title></title>
+        <title><?= $PAGE_TITLE; ?></title>
         <meta charset=''>
     </head>
 
