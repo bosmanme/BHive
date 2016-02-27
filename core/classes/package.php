@@ -75,4 +75,62 @@ class Package
 
         return true;
     }
+
+	/**
+	 * Unloads a package from the stack.
+	 *
+	 * @param   string  $pacakge  The package name
+	 * @return  void
+	 */
+	public static function unload($package)
+	{
+		unset(static::$packages[$package]);
+	}
+
+	/**
+	 * Checks if the given package is loaded, if no package is given then
+	 * all loaded packages are returned.
+	 *
+	 * @param   string|null  $package  The package name or null
+	 * @return  bool|array  Whether the package is loaded, or all packages
+	 */
+	public static function loaded($package = null)
+	{
+		if ($package === null)
+		{
+			return static::$packages;
+		}
+
+		return array_key_exists($package, static::$packages);
+	}
+
+	/**
+	 * Checks if the given package exists.
+	 *
+	 * @param   string  $package  The package name
+	 * @return  bool|string  Path to the package found, or false if not found
+	 */
+	public static function exists($package)
+	{
+		if (array_key_exists($package, static::$packages))
+		{
+			return static::$packages[$package];
+		}
+		else
+		{
+			$paths = Config::get('package_paths', array());
+			empty($paths) and $paths = array(PKGPATH);
+			$package = strtolower($package);
+
+			foreach ($paths as $path)
+			{
+				if (is_dir($path.$package))
+				{
+					return $path . $package.DS;
+				}
+			}
+		}
+
+		return false;
+	}
 }
