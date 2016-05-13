@@ -10,6 +10,7 @@
  */
 
 namespace BHive\Core;
+use \DateTime;
 
 /**
  * The abstract Controller class
