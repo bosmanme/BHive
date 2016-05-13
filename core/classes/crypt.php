@@ -29,7 +29,11 @@ class Crypt
 
     protected static $_method = PASSWORD_DEFAULT;
 
-    public static function init(){}
+    public static function init()
+    {
+        Config::load('crypt', true);
+        static::$_config['cost'] = Config::get('cost', static::$_config['cost']);
+    }
 
     /**
      * Hash a string with set configuration
