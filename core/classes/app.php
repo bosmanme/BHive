@@ -166,4 +166,20 @@ class App
 		return include $file;
 	}
 
+	/**
+	 * Cleans a file path so that it does not contain absolute file paths.
+	 *
+	 * @param   string  the filepath
+	 * @return  string  the clean path
+	 */
+	public static function cleanPath($path)
+	{
+		// framework default paths
+		static $search = array('\\', APPPATH, COREPATH, PKGPATH, DOCROOT);
+		static $replace = array('/', 'APPPATH/', 'COREPATH/', 'PKGPATH/', 'DOCROOT/');
+
+		// clean up and return it
+		return str_ireplace($search, $replace, $path);
+	}
+
 }

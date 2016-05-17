@@ -66,4 +66,40 @@ class Input
 	{
 		return static::server('QUERY_STRING', $default);
 	}
+
+    /**
+	 * Fetch a item from the HTTP request headers
+	 *
+	 * @return  array
+	 */
+	public static function headers($index = null, $default = null)
+	{
+		static $headers = null;
+
+		// do we need to fetch the headers?
+		if ($headers === null)
+		{
+			// deal with fcgi or nginx installs
+			if ( ! function_exists('getallheaders'))
+			{
+				$server = Arr::filterPrefixed(static::server(), 'HTTP_', true);
+
+				foreach ($server as $key => $value)
+				{
+					$key = join('-', array_map('ucfirst', explode('_', strtolower($key))));
+
+					$headers[$key] = $value;
+				}
+
+				$value = static::server('Content_Type', static::server('Content-Type')) and $headers['Content-Type'] = $value;
+				$value = static::server('Content_Length', static::server('Content-Length')) and $headers['Content-Length'] = $value;
+			}
+			else
+			{
+				$headers = getallheaders();
+			}
+		}
+
+		return empty($headers) ? $default : ((func_num_args() === 0) ? $headers : Arr::get(array_change_key_case($headers), strtolower($index), $default));
+	}
 }

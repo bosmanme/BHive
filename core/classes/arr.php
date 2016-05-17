@@ -93,4 +93,29 @@ class Arr
             $array[array_shift($keys)] = $value;
         }
     }
+
+    /**
+	 * Filters an array on prefixed associative keys.
+	 *
+	 * @param   array   the array to filter.
+	 * @param   string  prefix to filter on.
+	 * @param   bool    whether to remove the prefix.
+	 * @return  array
+	 */
+	public static function filterPrefixed($array, $prefix, $removePrefix = true)
+	{
+		$return = array();
+		foreach ($array as $key => $val)
+		{
+			if (preg_match('/^'.$prefix.'/', $key))
+			{
+				if ($removePrefix === true)
+				{
+					$key = preg_replace('/^'.$prefix.'/', '', $key);
+				}
+				$return[$key] = $val;
+			}
+		}
+		return $return;
+	}
 }

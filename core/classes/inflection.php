@@ -183,4 +183,24 @@ class Inflection
             return $count . " " . self::pluralize($string);
         }
     }
+
+    /**
+	 * Turns an underscore or dash separated word and turns it into a human looking string.
+	 *
+	 * @param   string  the word
+	 * @param   string  the separator (either _ or -)
+	 * @param   bool    lowercare string and upper case first
+	 * @return  string  the human version of given string
+	 */
+	public static function humanize($str, $sep = '_', $lowercase = true)
+	{
+		// Allow dash, otherwise default to underscore
+		$sep = $sep != '-' ? '_' : $sep;
+
+		if ($lowercase === true) {
+			$str = Str::ucfirst($str);
+		}
+
+		return str_replace($sep, " ", strval($str));
+	}
 }
