@@ -30,8 +30,8 @@
  		);
 
  		// construct the HTML
- 		$html = '<'.$tag;
- 		$html .= ( ! empty($attr)) ? ' '.(is_array($attr) ? array_to_attr($attr) : $attr) : '';
+ 		$html = '<' . $tag;
+ 		$html .= ( ! empty($attr)) ? ' ' . (is_array($attr) ? array_to_attr($attr) : $attr) : '';
 
  		// a void element?
  		if (in_array(strtolower($tag), $voidElements)) {
@@ -40,12 +40,41 @@
  		}
  		else {
  			// add the content and close the tag
- 			$html .= '>'.$content.'</'.$tag.'>';
+ 			$html .= '>' . $content . '</' . $tag . '>';
  		}
 
  		return $html;
  	}
  }
+
+ /**
+ * Takes an array of attributes and turns it into a string for an html tag
+ *
+ * @param	array	$attr
+ * @return	string
+ */
+if ( ! function_exists('array_to_attr')) {
+	function array_to_attr($attr) {
+		$attrStr = '';
+
+		foreach ((array) $attr as $property => $value) {
+			// Ignore null/false
+			if ($value === null or $value === false) {
+				continue;
+			}
+
+			// If the key is numeric then it must be something like selected="selected"
+			if (is_numeric($property)) {
+				$property = $value;
+			}
+
+			$attr_str .= $property . '="' . str_replace('"', '&quot;', $value) . '" ';
+		}
+
+		// We strip off the last space for return
+		return trim($attrStr);
+	}
+}
 
  /**
   * Takes a classname and returns the actual classname for an alias or just the classname
