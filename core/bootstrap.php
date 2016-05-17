@@ -10,6 +10,9 @@ define('DS', DIRECTORY_SEPARATOR);
 
 setup_autoloader();
 
+// Load base functions
+require COREPATH . 'base.php';
+
 function setup_autoloader()
 {
 	Autoloader::addNamespace('BHive\\Core', COREPATH . 'classes/');
