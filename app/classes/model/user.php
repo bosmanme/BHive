@@ -19,6 +19,23 @@ namespace Model;
 class User extends \Model
 {
     protected $username;
+    protected $name;
+    protected $surname;
+    protected $status;
 
-    
+    protected $organization;
+
+    public function __get($var)
+    {
+        switch ($var) {
+
+            case 'organization':
+                return null;
+                break;
+
+            default:
+                return $this->$var;
+        }
+    }
+
 }
