@@ -1,0 +1,25 @@
+/**
+ * CSS onfiguration, feel free to change these as you please.
+ *
+ * Beware of sudden monster-like designs jumping on your screen when you do..
+ *
+ **/
+
+/** Fonts **/
+$font-family-main: "Helvetica","Arial",sans-serif;  // The main font family
+$font-family-headers: "Roboto", $font-family-main;  // Font used for h's
+
+$font-color-main: #424242;      // Main text color
+$font-color-selection: #b3d4fc; // Background color for selections
+$font-color-secondary: #9e9e9e; // Color for text inside the footer
+$font-color-light: #757575;     // Color for things like placeholders
+$font-color-error: #de3226;     // Color for error text and interface
+
+/** Interface colors **/
+$color-ribbon: #3F51B5;             // Color of the ribbon on top of pages
+$color-footer: $font-color-main;    // Color of the footer (same as main text)
+$color-content-bg: #fff;            // Background for most content
+$color-content-bg-secondary: #eee;  // Background for hovered UI elements
+
+/** Other vars **/
+$base-browser-context: 16; // Used to calculate em from px values

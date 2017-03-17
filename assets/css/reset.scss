@@ -1,0 +1,12 @@
+/**
+ * Reset file
+ **/
+ * {
+     margin: 0;
+     padding: 0;
+
+     :focus {
+         outline: none; /* Pesky input fields! */
+     }
+ }
+ a { text-decoration: none; }

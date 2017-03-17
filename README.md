@@ -11,7 +11,8 @@ Created by [Mathias Bosman]. ([@mathiasbosman])
 
 BHive is written in PHP and uses (or will use) a number of open source projects to work properly:
 * [jQuery] - duh, yet to be implemented
-* [FuelPHP] - not realy implemented, but I got some inspiration from the project.
+* [FuelPHP] - not really implemented, but I got some inspiration from the project.
+* [Google Material Design Lite] - again not really implemented but got inspiration here
 
 Some extra on the side information:
 * Editor: [Atom.io] and some packages
@@ -22,3 +23,4 @@ Some extra on the side information:
 [jQuery]:http://jquery.com
 [FuelPHP]:http://fuelphp.com/
 [Atom.io]:https://atom.io/
+[Google Material Design Lite]:https://github.com/google/material-design-lite
